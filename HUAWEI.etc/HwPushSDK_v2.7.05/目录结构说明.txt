@@ -1,0 +1,14 @@
+目录结构如下：
+/samples                             --集成PushSDK接入的demo源码
+
+/libs  				     			 --集成PushSDK必要的jar包
+
+/res   			            		 --集成PushSDK必要的资源
+
+/docs                                --集成PushSDK文档
+
+AndroidManifest.xml                  --集成PushSDK的配置文件
+
+ReleaseNote.txt                      --更新版本说明
+
+Sample_2.7.05.apk                    --测试apk

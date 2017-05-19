@@ -1,0 +1,15 @@
+id=com.huawei.android.pushagent
+name=PushSDK
+version=2.7.05
+AndroidVersion.ApiLevel=14
+release_date=2016-1-4
+description=华为PushSDK是华为推出的基于Android平台的SDK，提供给Android开发者简单接口，轻松集成华为推送服务
+release_notes= 
+v2.7.05
+修改富媒体界面布局等显示效果
+富媒体界面加入敏感权限检查
+删除冗余代码
+修改安全问题，如修改加密算法等
+修改安全问题：利用Push SDK中的暴露组件PushEventReceiver和Write SMS权限发送伪造短信。
+修改安全问题：通过Push SDK中的暴露组件RichPushActivity，间接调用 zipEntry解压指定压缩包中的恶意程序到任意目录(Android寄生兽漏洞)。
+修改安全问题：标签上报模块，https传输过程中SSL加密，包含有RC4加密算法。
