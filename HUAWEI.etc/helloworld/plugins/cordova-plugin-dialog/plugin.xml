@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 插件的Id，安装后注册的Id为此id加js-moudle的name属性,即cordova_plugins.js里的id属性 -->
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+	id="cordova-plugin-dialog" version="0.0.1">
+	<!-- 插件名称 -->
+    <name>DialogPlugin</name>
+	<!-- 插件描述 -->
+    <description>Description</description>
+	<!-- js文件的地址，安装后路径为：plugins/插件Id/src属性值 -->
+    <js-module name="CustomDialog" src="www/dialog.js">
+	<!-- 跟asserts/cordova_plugins.js中填clobbers的值一样 -->
+        <clobbers target="alertDialog"/>
+    </js-module>
+	<!-- android -->
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+		<!-- config-file中包含的这段会原封不动的插入到config.xml文件中 -->
+            <feature name="CustomDialog">
+                <param name="android-package" value="org.apache.cordova.dialog.CustomDialog"/>
+            </feature>
+        </config-file>
+		<!-- 本地代码，有多个文件就写多个source-file，src对应本项目，target对应安装后的目录 -->
+        <source-file src="src/android/CustomDialog.java" target-dir="src/org/apache/cordova/dialog"/>
+    </platform>
+	<!-- 其他平台的代码 -->
+</plugin>
