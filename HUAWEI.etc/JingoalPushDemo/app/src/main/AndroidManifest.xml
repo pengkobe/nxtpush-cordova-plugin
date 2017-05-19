@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.jingoal.pushdemo">
+
+    <!-- 自定义权限 -->
+    <uses-permission android:name="getui.permission.GetuiService.${PACKAGE_NAME}"/>
+    <!--替换为第三方应用的包名-->
+    <permission
+            android:name="getui.permission.GetuiService.${PACKAGE_NAME}"
+            android:protectionLevel="normal"/>
+    <permission
+            android:name="${PACKAGE_NAME}.permission.MIPUSH_RECEIVE"
+            android:protectionLevel="signature"/>
+
+    <uses-permission android:name="${PACKAGE_NAME}.permission.MIPUSH_RECEIVE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- 配置的第三方参数属性 -->
+        <!-- 个推Push配置 -->
+        <meta-data
+                android:name="PUSH_APPID"
+                android:value="${GETUI_APP_ID}"/>
+        <meta-data
+                android:name="PUSH_APPKEY"
+                android:value="${GETUI_APP_KEY}"/>
+        <meta-data
+                android:name="PUSH_APPSECRET"
+                android:value="${GETUI_APP_SECRET}"/>
+        <!-- 小米Push配置 -->
+        <meta-data
+                android:name="MI_PUSH_APPID"
+                android:value="${MI_PUSH_APPID}"/>
+        <meta-data
+                android:name="MI_PUSH_APPKEY"
+                android:value="${MI_PUSH_APPKEY}"/>
+
+        <receiver
+                android:name="com.jingoal.push.receiver.GeTuiReceiver"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}"/>
+            </intent-filter>
+        </receiver>
+
+        <provider
+                android:name="com.igexin.download.DownloadProvider"
+                android:authorities="downloads.${PACKAGE_NAME}"
+                android:exported="true"
+                android:process=":igepushservice"/>
+
+        <receiver android:name=".receiver.MyJingoalReceiver">
+            <intent-filter>
+                <action android:name="com.jingoal.push.receiver.jingoalreceiver"/>
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

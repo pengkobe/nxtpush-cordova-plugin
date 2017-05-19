@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+    defaultConfig {
+        applicationId "com.jingoal.pushdemo"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //第三方推送所需要的APPID、APPKEY的配置
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "TLePorWVs69qQkcHFvOiLA",
+                GETUI_APP_KEY   : "aLyH5zVd94ADrZROq15rf1",
+                GETUI_APP_SECRET: "11xN33fpap7VFmb04QfSM9",
+                //因为小米的appkey 和 appid 为纯数字,必须要在前面加上\0,
+                //程序中才能正确从meta-data中读取,下面的\\0的第一个\为转义字符
+                MI_PUSH_APPID: "\\028823037615175****",
+                MI_PUSH_APPKEY: "\\0597175232****",
+                PACKAGE_NAME    : applicationId
+        ]
+
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    testCompile 'junit:junit:4.12'
+    compile project (':pushlibrary')
+}
