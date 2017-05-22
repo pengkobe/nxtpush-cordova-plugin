@@ -20,6 +20,7 @@ public class HuaWeiReceiver extends PushEventReceiver {
 
     /**
      * pushToken申请成功后,会自动回调该方法,应用可以通过该接口中获取token。
+     * yipeng:获取到相关的 token 后存储到 sharedPreference 中，可以在 PushClient 中获取
      */
     @Override public void onToken(Context context, String token, Bundle extras) {
         Intent intent = new Intent();
