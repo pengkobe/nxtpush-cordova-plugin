@@ -65,7 +65,6 @@ public class JPushPlugin  {
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private static JPushPlugin instance;
-    private static Activity cordovaActivity;
     private static String TAG = "JPushPlugin";
 
     private static boolean shouldCacheMsg = false;
@@ -79,13 +78,16 @@ public class JPushPlugin  {
     public static String openNotificationAlert;
     public static Map<String, Object> openNotificationExtras = new HashMap<String, Object>();
 
+    // cordova 上下文
+    public static Context cordovaCxt;
+
     public JPushPlugin() {
         instance = this;
     }
 
-    public void InitPlugin(Context ctx, Activity cActivity) {
+    public void InitPlugin(Context ctx) {
         Log.i(TAG, "JPush initialize.");
-        this.cordovaActivity = cActivity;
+        cordovaCxt = ctx;
         JPushInterface.init(ctx);
         //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
         //这样做是为了和 iOS 统一。
@@ -104,7 +106,7 @@ public class JPushPlugin  {
         Log.i(TAG, "----------------  onPause");
         shouldCacheMsg = true;
         if (isStatisticsOpened && multitasking) {
-            JPushInterface.onPause(this.cordova.getActivity());
+            JPushInterface.onPause(NXTPlugin.getActivity());
         }
     }
 
@@ -113,7 +115,7 @@ public class JPushPlugin  {
         Log.i(TAG, "---------------- onResume" + "-" + openNotificationAlert
                 + "-" + notificationAlert);
         if (isStatisticsOpened && multitasking) {
-            JPushInterface.onResume(this.cordova.getActivity());
+            JPushInterface.onResume(NXTPlugin.getActivity());
         }
         if (openNotificationAlert != null) {
             notificationAlert = null;
@@ -202,12 +204,7 @@ public class JPushPlugin  {
         JSONObject data = getMessageObject(message, extras);
         String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.webView.loadUrl("javascript:" + js);
-            }
-        });
+        NXTPushPlugin.runJSOnUiThread(js);
     }
 
     static void transmitNotificationOpen(String title, String alert,
@@ -218,12 +215,7 @@ public class JPushPlugin  {
         JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.webView.loadUrl("javascript:" + js);
-            }
-        });
+        NXTPushPlugin.runJSOnUiThread(js);
         JPushPlugin.openNotificationTitle = null;
         JPushPlugin.openNotificationAlert = null;
     }
@@ -236,12 +228,7 @@ public class JPushPlugin  {
         JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.webView.loadUrl("javascript:" + js);
-            }
-        });
+        NXTPushPlugin.runJSOnUiThread(js);
         JPushPlugin.notificationTitle = null;
         JPushPlugin.notificationAlert = null;
     }
@@ -258,17 +245,12 @@ public class JPushPlugin  {
         }
         String format = "window.plugins.jPushPlugin.receiveRegistrationIdInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.webView.loadUrl("javascript:" + js);
-            }
-        });
+        NXTPushPlugin.runJSOnUiThread(js);
     }
 
 
     void init(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.init(this.cordova.getActivity().getApplicationContext());
+        JPushInterface.init(cordovaCxt);
     }
 
     void setDebugMode(JSONArray data, CallbackContext callbackContext) {
@@ -282,11 +264,11 @@ public class JPushPlugin  {
     }
 
     void stopPush(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.stopPush(this.cordova.getActivity().getApplicationContext());
+        JPushInterface.stopPush(cordovaCxt);
     }
 
     void resumePush(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.resumePush(this.cordova.getActivity().getApplicationContext());
+        JPushInterface.resumePush(cordovaCxt);
     }
 
 /**
@@ -294,23 +276,10 @@ public class JPushPlugin  {
  */
     boolean isPushStopped(JSONArray data, CallbackContext callbackContext) {
         boolean isStopped = JPushInterface.isPushStopped(
-                this.cordova.getActivity().getApplicationContext());
+                cordovaCxt);
        return isStopped;  
     }
 
-
-/**
- * 判断是否开启了通知权限
- */
-    void areNotificationEnabled(JSONArray data, final CallbackContext callback) {
-        int isEnabled;
-        if (hasPermission("OP_POST_NOTIFICATION")) {
-            isEnabled = 1;
-        } else {
-            isEnabled = 0;
-        }
-        callback.success(isEnabled);
-    }
 
 /**
  * 设置最新通知数目
@@ -325,7 +294,7 @@ public class JPushPlugin  {
         }
         if (num != -1) {
             JPushInterface.setLatestNotificationNumber(
-                    this.cordova.getActivity().getApplicationContext(), num);
+                    cordovaCxt, num);
         } else {
             callbackContext.error("error num");
         }
@@ -354,7 +323,7 @@ public class JPushPlugin  {
         } catch (JSONException e) {
             callbackContext.error("error reading hour json");
         }
-        Context context = this.cordova.getActivity().getApplicationContext();
+        Context context = cordovaCxt;
         JPushInterface.setPushTime(context, days, startHour, endHour);
        
     }
@@ -363,24 +332,24 @@ public class JPushPlugin  {
  * 获取设备注册 ID
  */
     void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
-        Context context = this.cordova.getActivity().getApplicationContext();
+        Context context = cordovaCxt;
         String regID = JPushInterface.getRegistrationID(context);
         callbackContext.success(regID);
     }
 
     void onResume(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.onResume(this.cordova.getActivity());
+        JPushInterface.onResume(NXTPlugin.getActivity());
     }
 
     void onPause(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.onPause(this.cordova.getActivity());
+        JPushInterface.onPause(NXTPlugin.getActivity());
     }
 
     void reportNotificationOpened(JSONArray data, CallbackContext callbackContext) {
         try {
             String msgID;
             msgID = data.getString(0);
-            JPushInterface.reportNotificationOpened(this.cordova.getActivity(), msgID);
+            JPushInterface.reportNotificationOpened(NXTPlugin.getActivity(), msgID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -392,7 +361,7 @@ public class JPushPlugin  {
             for (int i = 0; i < data.length(); i++) {
                 tags.add(data.getString(i));
             }
-            JPushInterface.setTags(this.cordova.getActivity().getApplicationContext(),
+            JPushInterface.setTags(cordovaCxt,
                     tags, mTagWithAliasCallback);
            
         } catch (JSONException e) {
@@ -414,7 +383,7 @@ public class JPushPlugin  {
             for (int i = 0; i < tagsArray.length(); i++) {
                 tags.add(tagsArray.getString(i));
             }
-            JPushInterface.setAliasAndTags(this.cordova.getActivity().getApplicationContext(),
+            JPushInterface.setAliasAndTags(cordovaCxt,
                     alias, tags, mTagWithAliasCallback);
            
         } catch (JSONException e) {
@@ -429,7 +398,7 @@ public class JPushPlugin  {
     void setBasicPushNotificationBuilder(JSONArray data,
                                          CallbackContext callbackContext) {
         BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(
-                this.cordova.getActivity());
+                NXTPlugin.getActivity());
         builder.developerArg0 = "Basic builder 1";
         JPushInterface.setPushNotificationBuilder(1, builder);
         JSONObject obj = new JSONObject();
@@ -447,14 +416,14 @@ public class JPushPlugin  {
     void setCustomPushNotificationBuilder(JSONArray data,
                                           CallbackContext callbackContext) {
         // CustomPushNotificationBuilder builder = new CustomPushNotificationBuilder(
-        //         this.cordova.getActivity(), R.layout.test_notification_layout,
+        //         NXTPlugin.getActivity(), R.layout.test_notification_layout,
         //         R.id.icon, R.id.title, R.id.text);
         // JPushInterface.setPushNotificationBuilder(2, builder);
         // JPushInterface.setDefaultPushNotificationBuilder(builder);
     }
 
     void clearAllNotification(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.clearAllNotifications(this.cordova.getActivity());
+        JPushInterface.clearAllNotifications(NXTPlugin.getActivity());
     }
 
     void clearNotificationById(JSONArray data, CallbackContext callbackContext) {
@@ -467,7 +436,7 @@ public class JPushPlugin  {
             return;
         }
         if (notificationId != -1) {
-            JPushInterface.clearNotificationById(this.cordova.getActivity(), notificationId);
+            JPushInterface.clearNotificationById(NXTPlugin.getActivity(), notificationId);
         } else {
             callbackContext.error("error id");
         }
@@ -494,17 +463,17 @@ public class JPushPlugin  {
         ln.setBroadcastTime(System.currentTimeMillis() + broadcastTime);
         ln.setExtras(extras.toString());
 
-        JPushInterface.addLocalNotification(this.cordova.getActivity(), ln);
+        JPushInterface.addLocalNotification(NXTPlugin.getActivity(), ln);
     }
 
     void removeLocalNotification(JSONArray data, CallbackContext callbackContext)
             throws JSONException {
         int notificationID = data.getInt(0);
-        JPushInterface.removeLocalNotification(this.cordova.getActivity(), notificationID);
+        JPushInterface.removeLocalNotification(NXTPlugin.getActivity(), notificationID);
     }
 
     void clearLocalNotifications(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.clearLocalNotifications(this.cordova.getActivity());
+        JPushInterface.clearLocalNotifications(NXTPlugin.getActivity());
     }
 
     /**
@@ -536,7 +505,7 @@ public class JPushPlugin  {
                 callbackContext.error("结束时间数值错误");
                 return;
             }
-            JPushInterface.setSilenceTime(this.cordova.getActivity(), startHour, startMinute,
+            JPushInterface.setSilenceTime(NXTPlugin.getActivity(), startHour, startMinute,
                     endHour, endMinute);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -557,7 +526,7 @@ public class JPushPlugin  {
      * http://docs.Push.io/client/android_api/#android-60
      */
     void requestPermission(JSONArray data, CallbackContext callbackContext) {
-        JPushInterface.requestPermission(this.cordova.getActivity());
+        JPushInterface.requestPermission(NXTPlugin.getActivity());
     }
 
     private final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
@@ -574,47 +543,11 @@ public class JPushPlugin  {
                 final String jsEvent = String.format(
                         "cordova.fireDocumentEvent('jpush.setTagsWithAlias',%s)",
                         data.toString());
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        instance.webView.loadUrl("javascript:" + jsEvent);
-                    }
-                });
+                        NXTPushPlugin.runJSOnUiThread(jsEvent);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     };
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private boolean hasPermission(String appOpsServiceId) {
-        Context context = cordova.getActivity().getApplicationContext();
-        AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-        ApplicationInfo appInfo = context.getApplicationInfo();
-
-        String pkg = context.getPackageName();
-        int uid = appInfo.uid;
-        Class appOpsClazz = null;
-
-        try {
-            appOpsClazz = Class.forName(AppOpsManager.class.getName());
-            Method checkOpNoThrowMethod = appOpsClazz.getMethod("checkOpNoThrow",
-                    Integer.TYPE, Integer.TYPE, String.class);
-            Field opValue = appOpsClazz.getDeclaredField(appOpsServiceId);
-            int value = opValue.getInt(Integer.class);
-            Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
-            return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 }

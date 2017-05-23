@@ -91,6 +91,22 @@ public class NXTPlugin extends CordovaPlugin {
     void setAlias(JSONArray data, CallbackContext callbackContext) {
     }
 
+    /**
+     * 专门用来执行来自 JPush 的执行请求
+     */
+    void static runJSOnUiThread(String js){
+        cordovaActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                instance.webView.loadUrl("javascript:" + js);
+            }
+        });
+    }
+
+    public Activity getActivity(){
+        return cordovaActivity;
+    }
+
 
 
     /**
