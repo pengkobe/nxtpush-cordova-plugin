@@ -19,7 +19,13 @@ NXTPlugin.prototype.errorCallback = function (msg) {
 }
 
 NXTPlugin.prototype.callNative = function (name, args, successCallback) {
-  cordova.exec(successCallback, this.errorCallback, 'NXTPlugin', name, args)
+   if (this.isPlatformIOS()) {
+     // IOS 执行极光推送原有逻辑
+     cordova.exec(successCallback, this.errorCallback, 'JPushPlugin', name, args)
+  } else {
+    // Android执行新逻辑
+     cordova.exec(successCallback, this.errorCallback, 'NXTPushPlugin', name, args)
+  }
 }
 
 // Common methods

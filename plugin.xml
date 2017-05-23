@@ -20,8 +20,8 @@
     <dependency id="cordova-plugin-device" />
     <dependency id="cordova-plugin-jcore" />
 
-    <js-module src="www/JPushPlugin.js" name="JPushPlugin">
-        <clobbers target="JPush" />
+    <js-module src="www/NXTPlugin.js" name="NXTPlugin">
+        <clobbers target="NXTPlugin" />
     </js-module>
 
     <platform name="ios">
@@ -61,7 +61,7 @@
 
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="JPushPlugin">
+            <feature name="NXTPlugin">
                 <param name="android-package" value="com.eegrid.phonegap.NXTPushPlugin" />
             </feature>
         </config-file>
