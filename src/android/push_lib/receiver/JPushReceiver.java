@@ -1,4 +1,4 @@
-package cn.jpush.phonegap;
+package com.nxt.push.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +35,7 @@ public class JPushReceiver extends BroadcastReceiver {
             handlingNotificationOpen(context, intent);
         }
     }
+
 
     private void handlingMessageReceive(Intent intent) {
         Intent intent = new Intent(JINGOAL_PUSH_ACTION);

@@ -1,4 +1,4 @@
-package com.jingoal.push.util;
+package com.nxt.push.util;
 
 import android.text.TextUtils;
 import java.lang.reflect.Method;

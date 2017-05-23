@@ -1,8 +1,8 @@
-package com.jingoal.push.sdk;
+package com.nxt.push.sdk;
 
 import android.content.Context;
-import com.jingoal.push.receiver.JingoalReceiver;
-import com.jingoal.push.util.RomTypeUtil;
+import com.nxt.push.receiver.JingoalReceiver;
+import com.nxt.push.util.RomTypeUtil;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 /**

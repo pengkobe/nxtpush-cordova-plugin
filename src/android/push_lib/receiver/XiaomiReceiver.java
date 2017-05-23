@@ -1,4 +1,4 @@
-package com.jingoal.push.receiver;
+package com.nxt.push.receiver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 import java.util.List;
 
-import static com.jingoal.push.receiver.JingoalReceiver.COMMAND_TYPE;
-import static com.jingoal.push.receiver.JingoalReceiver.JINGOAL_PUSH_ACTION;
-import static com.jingoal.push.receiver.JingoalReceiver.LOG_TAG;
-import static com.jingoal.push.receiver.JingoalReceiver.MSG_CONTENT;
-import static com.jingoal.push.receiver.JingoalReceiver.PUS_CLIENT_TYPE;
+import static com.nxt.push.receiver.JingoalReceiver.COMMAND_TYPE;
+import static com.nxt.push.receiver.JingoalReceiver.JINGOAL_PUSH_ACTION;
+import static com.nxt.push.receiver.JingoalReceiver.LOG_TAG;
+import static com.nxt.push.receiver.JingoalReceiver.MSG_CONTENT;
+import static com.nxt.push.receiver.JingoalReceiver.PUS_CLIENT_TYPE;
 import static com.xiaomi.mipush.sdk.MiPushClient.COMMAND_REGISTER;
 
 /**

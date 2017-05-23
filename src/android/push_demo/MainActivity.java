@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         txtTokend.setText(token);
     }
 
-    private void getClentType() {
+    private void getClientType() {
         int type = JingoalPushManager.getClientType();
         if(type==JingoalReceiver.PushClientType.GE_TUI) {
             txtClientType.setText("个推");
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 getToken();
                 break;
             case R.id.btn_clientType:
-                getClentType();
+                getClientType();
                 break;
         }
     }

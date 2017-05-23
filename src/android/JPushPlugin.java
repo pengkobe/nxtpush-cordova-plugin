@@ -1,4 +1,4 @@
-package cn.jpush.phonegap;
+package com.eegrid.phonegap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -429,15 +429,7 @@ public class JPushPlugin extends CordovaPlugin {
     }
 
     void setAlias(JSONArray data, CallbackContext callbackContext) {
-        try {
-            String alias = data.getString(0);
-            JPushInterface.setAlias(this.cordova.getActivity().getApplicationContext(),
-                    alias, mTagWithAliasCallback);
-            callbackContext.success();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            callbackContext.error("Error reading alias JSON");
-        }
+        
     }
 
     void setTagsWithAlias(JSONArray data, CallbackContext callbackContext) {

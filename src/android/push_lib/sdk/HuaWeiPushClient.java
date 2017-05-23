@@ -1,15 +1,15 @@
-package com.jingoal.push.sdk;
+package com.nxt.push.sdk;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.huawei.android.pushagent.api.PushManager;
-import com.jingoal.push.receiver.JingoalReceiver;
+import com.nxt.push.receiver.NXTReceiver;
 
 /**
  * 华为推送初始化以及别名管理
  */
-public class HuaWeiPushClient implements JingoalPushClient {
+public class HuaWeiPushClient implements NXTPushClient {
 
     @Override public void registerPush(Context ctx) {
         PushManager.requestToken(ctx);
@@ -22,9 +22,9 @@ public class HuaWeiPushClient implements JingoalPushClient {
         //PushManager.deregisterToken(context,getToken(context));
 
         SharedPreferences sharedPreference =
-                context.getSharedPreferences(JingoalReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
+                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreference.edit();
-        edit.remove(JingoalReceiver.SP_KEY_HUAWEI_TOKEN);
+        edit.remove(NXTReceiver.SP_KEY_HUAWEI_TOKEN);
         edit.commit();
 
     }
@@ -39,11 +39,11 @@ public class HuaWeiPushClient implements JingoalPushClient {
 
     @Override public String getToken(Context context) {
         SharedPreferences sharedPreference =
-                context.getSharedPreferences(JingoalReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
-        return sharedPreference.getString(JingoalReceiver.SP_KEY_HUAWEI_TOKEN, null);
+                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
+        return sharedPreference.getString(NXTReceiver.SP_KEY_HUAWEI_TOKEN, null);
     }
 
     @Override public int getClientType() {
-        return JingoalReceiver.PushClientType.HUA_WEI;
+        return NXTReceiver.PushClientType.HUA_WEI;
     }
 }

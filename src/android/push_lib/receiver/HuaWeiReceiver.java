@@ -1,4 +1,4 @@
-package com.jingoal.push.receiver;
+package com.nxt.push.receiver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import com.huawei.android.pushagent.api.PushEventReceiver;
 
-import static com.jingoal.push.receiver.NXTReceiver.COMMAND_TYPE;
-import static com.jingoal.push.receiver.NXTReceiver.JINGOAL_PUSH_ACTION;
-import static com.jingoal.push.receiver.NXTReceiver.LOG_TAG;
-import static com.jingoal.push.receiver.NXTReceiver.MSG_CONTENT;
-import static com.jingoal.push.receiver.NXTReceiver.PUS_CLIENT_TYPE;
+import static com.nxt.push.receiver.NXTReceiver.COMMAND_TYPE;
+import static com.nxt.push.receiver.NXTReceiver.JINGOAL_PUSH_ACTION;
+import static com.nxt.push.receiver.NXTReceiver.LOG_TAG;
+import static com.nxt.push.receiver.NXTReceiver.MSG_CONTENT;
+import static com.nxt.push.receiver.NXTReceiver.PUS_CLIENT_TYPE;
 
 /**
  * 接收华为Push推送过来的消息

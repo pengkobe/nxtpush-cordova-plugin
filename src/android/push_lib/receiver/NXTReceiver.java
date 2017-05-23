@@ -1,4 +1,4 @@
-package com.jingoal.push.receiver;
+package com.nxt.push.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,12 +8,13 @@ import android.content.Intent;
  * 今目标推送消息广播接收器,用于接收不同厂家的第三方push sdk推送过来的消息,统一处理,
  * UI必须要继承该类,并注册在 AndroidManifest.xml 文件中
  */
-public abstract class JingoalReceiver extends BroadcastReceiver {
+public abstract class NXTReceiver extends BroadcastReceiver {
 
     public static final String LOG_TAG = "jingoal_push_tag";
     public static final String JINGOAL_PUSH_ACTION = "com.jingoal.push.receiver.jingoalreceiver";
     public static final String MSG_CONTENT = "msg_content";
     public static final String PUS_CLIENT_TYPE = "push_client_type";
+    
     /**
      * 广播接收到的Intent中包含的消息类型,see{@link MessageType}
      */
@@ -22,6 +23,7 @@ public abstract class JingoalReceiver extends BroadcastReceiver {
      * 发送command类型请求的结果
      */
     public static final String COMMAND_RESULT = "command_result";
+
     /**
      * 发送的command的类型
      */
@@ -32,23 +34,24 @@ public abstract class JingoalReceiver extends BroadcastReceiver {
     public static final String COMMAND_SET_ALIAS = "command_set_alias";
     //command的类型:删除别名
     public static final String COMMAND_DELETE_ALIAS = "command_delete_alias";
+
     /**
      * 保存PushSDK初始化时的一些数据
      */
     public static final String JINGOAL_PUSH_SP = "JingoalPushSP";
     //保存华为推送初始化生成的token
     public static final String SP_KEY_HUAWEI_TOKEN = "SPKeyHuaweiToken";
-    //个推push初始化返回的clientID
+    //极光push初始化返回的clientID
     public static final String SP_KEY_GETUI_TOKEN = "SPKeyGeTuiClientID";
     //小米Push初始化返回的regId
     public static final String SP_KEY_XIAOMI_TOKEN = "SPKeyXiaomiRegId";
 
     /**
      * Push的客户端类型
-     * 个推:2 小米:3 华为:4
+     * 极光:2 小米:3 华为:4
      */
     public static class PushClientType {
-        //个推
+        //极光
         public static final int JI_GUANG = 2;
         //小米
         public static final int XIAO_MI = 3;

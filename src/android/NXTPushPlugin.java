@@ -1,4 +1,4 @@
-package cn.jpush.phonegap;
+package com.eegrid.phonegap;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -40,30 +40,30 @@ public class NXTPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
                     "addLocalNotification",
-                    "areNotificationEnabled",
-                    "clearAllNotification",
-                    "clearLocalNotifications",
+                    "areNotificationEnabled", //
+                    "clearAllNotification",//
+                    "clearLocalNotifications",//
                     "clearNotificationById",
                     "getNotification",
-                    "getRegistrationID",
-                    "init",
-                    "isPushStopped",
+                    "getRegistrationID",//
+                    "init",// 
+                    "isPushStopped",//
                     "onPause",
                     "onResume",
-                    "requestPermission",
+                    "requestPermission",//
                     "removeLocalNotification",
                     "reportNotificationOpened",
-                    "resumePush",
-                    "setAlias",
-                    "setBasicPushNotificationBuilder",
-                    "setDebugMode",
+                    "resumePush",//
+                    "setAlias",//
+                    "setBasicPushNotificationBuilder",//
+                    "setDebugMode",//
                     "setLatestNotificationNum",
                     "setPushTime",
-                    "setTags",
-                    "setTagsWithAlias",
+                    "setTags",//
+                    "setTagsWithAlias",//
                     "setSilenceTime",
                     "setStatisticsOpen",
-                    "stopPush"
+                    "stopPush"//
             );
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
@@ -327,6 +327,10 @@ public class NXTPlugin extends CordovaPlugin {
         callbackContext.success();
     }
 
+
+/**
+ * 极光是否停止了推送
+ */
     void isPushStopped(JSONArray data, CallbackContext callbackContext) {
         boolean isStopped = JPushInterface.isPushStopped(
                 this.cordova.getActivity().getApplicationContext());
@@ -337,6 +341,10 @@ public class NXTPlugin extends CordovaPlugin {
         }
     }
 
+
+/**
+ * 判断是否开启了通知权限
+ */
     void areNotificationEnabled(JSONArray data, final CallbackContext callback) {
         int isEnabled;
         if (hasPermission("OP_POST_NOTIFICATION")) {
@@ -347,6 +355,9 @@ public class NXTPlugin extends CordovaPlugin {
         callback.success(isEnabled);
     }
 
+/**
+ * 设置最新通知数目
+ */
     void setLatestNotificationNum(JSONArray data, CallbackContext callbackContext) {
         int num = -1;
         try {
@@ -363,6 +374,9 @@ public class NXTPlugin extends CordovaPlugin {
         }
     }
 
+/**
+ * 设置推送时间
+ */
     void setPushTime(JSONArray data, CallbackContext callbackContext) {
         Set<Integer> days = new HashSet<Integer>();
         JSONArray dayArray;
@@ -388,6 +402,9 @@ public class NXTPlugin extends CordovaPlugin {
         callbackContext.success();
     }
 
+/**
+ * 获取设备注册 ID
+ */
     void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
         Context context = this.cordova.getActivity().getApplicationContext();
         String regID = JPushInterface.getRegistrationID(context);

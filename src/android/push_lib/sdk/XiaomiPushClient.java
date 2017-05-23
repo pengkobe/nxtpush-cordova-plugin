@@ -1,4 +1,4 @@
-package com.jingoal.push.sdk;
+package com.nxt.push.sdk;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 /**
  * 小米推送初始化以及别名管理
  */
-public class XiaomiPushClient implements JingoalPushClient {
+public class XiaomiPushClient implements NXTPushClient {
 
     //清单文件中配置小米推送APPID的key
     private static final String MI_PUSH_APPID = "MI_PUSH_APPID";
