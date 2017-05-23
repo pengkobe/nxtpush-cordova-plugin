@@ -9,10 +9,6 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +32,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
 
-public class JPushPlugin extends CordovaPlugin {
+public class JPushPlugin  {
     private final static List<String> methodList =
             Arrays.asList(
                     "addLocalNotification",
@@ -87,15 +83,10 @@ public class JPushPlugin extends CordovaPlugin {
         instance = this;
     }
 
-    @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    public void InitPlugin(Context ctx, Activity cActivity) {
         Log.i(TAG, "JPush initialize.");
-
-        super.initialize(cordova, webView);
-        JPushInterface.init(cordova.getActivity().getApplicationContext());
-
-        cordovaActivity = cordova.getActivity();
-
+        this.cordovaActivity = cActivity;
+        JPushInterface.init(ctx);
         //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
         //这样做是为了和 iOS 统一。
         if (openNotificationAlert != null) {
@@ -133,13 +124,6 @@ public class JPushPlugin extends CordovaPlugin {
             transmitNotificationReceive(notificationTitle, notificationAlert,
                     notificationExtras);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cordovaActivity = null;
-        instance = null;
     }
 
     private static JSONObject getMessageObject(String message,
@@ -282,26 +266,6 @@ public class JPushPlugin extends CordovaPlugin {
         });
     }
 
-    @Override
-    public boolean execute(final String action, final JSONArray data,
-                           final CallbackContext callbackContext) throws JSONException {
-        if (!methodList.contains(action)) {
-            return false;
-        }
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Method method = JPushPlugin.class.getDeclaredMethod(action,
-                            JSONArray.class, CallbackContext.class);
-                    method.invoke(JPushPlugin.this, data, callbackContext);
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-            }
-        });
-        return true;
-    }
 
     void init(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.init(this.cordova.getActivity().getApplicationContext());
@@ -312,7 +276,6 @@ public class JPushPlugin extends CordovaPlugin {
         try {
             mode = data.getBoolean(0);
             JPushInterface.setDebugMode(mode);
-            callbackContext.success();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -320,24 +283,25 @@ public class JPushPlugin extends CordovaPlugin {
 
     void stopPush(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.stopPush(this.cordova.getActivity().getApplicationContext());
-        callbackContext.success();
     }
 
     void resumePush(JSONArray data, CallbackContext callbackContext) {
         JPushInterface.resumePush(this.cordova.getActivity().getApplicationContext());
-        callbackContext.success();
     }
 
-    void isPushStopped(JSONArray data, CallbackContext callbackContext) {
+/**
+ * 极光是否停止了推送
+ */
+    boolean isPushStopped(JSONArray data, CallbackContext callbackContext) {
         boolean isStopped = JPushInterface.isPushStopped(
                 this.cordova.getActivity().getApplicationContext());
-        if (isStopped) {
-            callbackContext.success(1);
-        } else {
-            callbackContext.success(0);
-        }
+       return isStopped;  
     }
 
+
+/**
+ * 判断是否开启了通知权限
+ */
     void areNotificationEnabled(JSONArray data, final CallbackContext callback) {
         int isEnabled;
         if (hasPermission("OP_POST_NOTIFICATION")) {
@@ -348,6 +312,9 @@ public class JPushPlugin extends CordovaPlugin {
         callback.success(isEnabled);
     }
 
+/**
+ * 设置最新通知数目
+ */
     void setLatestNotificationNum(JSONArray data, CallbackContext callbackContext) {
         int num = -1;
         try {
@@ -364,6 +331,9 @@ public class JPushPlugin extends CordovaPlugin {
         }
     }
 
+/**
+ * 设置推送时间
+ */
     void setPushTime(JSONArray data, CallbackContext callbackContext) {
         Set<Integer> days = new HashSet<Integer>();
         JSONArray dayArray;
@@ -386,9 +356,12 @@ public class JPushPlugin extends CordovaPlugin {
         }
         Context context = this.cordova.getActivity().getApplicationContext();
         JPushInterface.setPushTime(context, days, startHour, endHour);
-        callbackContext.success();
+       
     }
 
+/**
+ * 获取设备注册 ID
+ */
     void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
         Context context = this.cordova.getActivity().getApplicationContext();
         String regID = JPushInterface.getRegistrationID(context);
@@ -421,7 +394,7 @@ public class JPushPlugin extends CordovaPlugin {
             }
             JPushInterface.setTags(this.cordova.getActivity().getApplicationContext(),
                     tags, mTagWithAliasCallback);
-            callbackContext.success();
+           
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Error reading tags JSON");
@@ -443,7 +416,7 @@ public class JPushPlugin extends CordovaPlugin {
             }
             JPushInterface.setAliasAndTags(this.cordova.getActivity().getApplicationContext(),
                     alias, tags, mTagWithAliasCallback);
-            callbackContext.success();
+           
         } catch (JSONException e) {
             e.printStackTrace();
             callbackContext.error("Error reading tagAlias JSON");
