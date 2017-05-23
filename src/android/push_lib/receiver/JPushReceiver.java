@@ -11,7 +11,7 @@ import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class MyReceiver extends BroadcastReceiver {
+public class JPushReceiver extends BroadcastReceiver {
 
     private static final List<String> IGNORED_EXTRAS_KEYS =
             Arrays.asList(
@@ -37,9 +37,18 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     private void handlingMessageReceive(Intent intent) {
+        Intent intent = new Intent(JINGOAL_PUSH_ACTION);
+        intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.JI_GUANG);
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-        Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.transmitMessageReceive(msg, extras);
+        intent.putExtra(MSG_CONTENT, new String(msg));
+        intent.putExtra(JingoalReceiver.MESSAGE_TYPE, JingoalReceiver.MessageType.MESSAGE);
+        context.sendBroadcast(intent);
+        return false;
+
+        // yipeng:第一次改动
+        // String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
+        // Map<String, Object> extras = getNotificationExtras(intent);
+        // JPushPlugin.transmitMessageReceive(msg, extras);
     }
 
     private void handlingNotificationOpen(Context context, Intent intent) {
