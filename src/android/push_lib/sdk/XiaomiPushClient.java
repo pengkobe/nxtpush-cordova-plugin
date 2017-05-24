@@ -6,7 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
-import com.jingoal.push.receiver.JingoalReceiver;
+import com.nxt.push.receiver.NXTReceiver;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 /**
@@ -29,7 +29,7 @@ public class XiaomiPushClient implements NXTPushClient {
                 if(!TextUtils.isEmpty(appid) && !TextUtils.isEmpty(appkey)) {
                     MiPushClient.registerPush(ctx, appid, appkey);
                 } else {
-                    Log.e(JingoalReceiver.LOG_TAG, "APPID = "
+                    Log.e(NXTReceiver.LOG_TAG, "APPID = "
                         + appid
                         + "   APPKEY = "
                         + appkey
@@ -37,7 +37,7 @@ public class XiaomiPushClient implements NXTPushClient {
                 }
             }
         } catch (Exception e) {
-            Log.e(JingoalReceiver.LOG_TAG, e.getMessage());
+            Log.e(NXTReceiver.LOG_TAG, e.getMessage());
         }
     }
 
@@ -45,9 +45,9 @@ public class XiaomiPushClient implements NXTPushClient {
         MiPushClient.unregisterPush(context);
 
         SharedPreferences sharedPreference =
-                context.getSharedPreferences(JingoalReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
+                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreference.edit();
-        edit.remove(JingoalReceiver.SP_KEY_XIAOMI_TOKEN);
+        edit.remove(NXTReceiver.SP_KEY_XIAOMI_TOKEN);
         edit.commit();
 
     }
@@ -62,11 +62,11 @@ public class XiaomiPushClient implements NXTPushClient {
 
     @Override public String getToken(Context context) {
         SharedPreferences sharedPreference =
-                context.getSharedPreferences(JingoalReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
-        return sharedPreference.getString(JingoalReceiver.SP_KEY_XIAOMI_TOKEN, null);
+                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
+        return sharedPreference.getString(NXTReceiver.SP_KEY_XIAOMI_TOKEN, null);
     }
 
     @Override public int getClientType() {
-        return JingoalReceiver.PushClientType.XIAO_MI;
+        return NXTReceiver.PushClientType.XIAO_MI;
     }
 }

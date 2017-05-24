@@ -6,7 +6,6 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
@@ -21,19 +20,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.nxt.push.util;
-import com.nxt.push.sdk;
+import com.nxt.push.util.RomTypeUtil;
+import com.nxt.push.sdk.NXTPushManager;
+import com.nxt.push.sdk.NXTPushClient;
 
-public class NXTPlugin extends CordovaPlugin {
+public class NXTPushPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
-                    "areNotificationEnabled", 
+                    "areNotificationEnabled",
                     "init",
                     "requestPermission",
                     "setAlias",
@@ -44,9 +41,9 @@ public class NXTPlugin extends CordovaPlugin {
                     "addLocalNotification",
                     "clearAllNotification",
                     "clearLocalNotifications",
-                    "clearNotificationById",     
-                    "getRegistrationID",       
-                    "isPushStopped", 
+                    "clearNotificationById",
+                    "getRegistrationID",
+                    "isPushStopped",
                     "onPause",
                     "onResume",
                     "removeLocalNotification",
@@ -65,13 +62,13 @@ public class NXTPlugin extends CordovaPlugin {
 
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
-    private static NXTPlugin instance;
+    private static NXTPushPlugin instance;
     private static Activity cordovaActivity;
-    private static String TAG = "NXTPlugin";
+    private static String TAG = "NXTPushPlugin";
 
     private static boolean IS_JIGUANG_PUSH = false;
 
-    public NXTPlugin() {
+    public NXTPushPlugin() {
         instance = this;
     }
 
@@ -97,28 +94,28 @@ public class NXTPlugin extends CordovaPlugin {
                 @Override
                 public void run() {
                     try {
-                        Method method = NXTPlugin.class.getDeclaredMethod(action,
+                        Method method = NXTPushPlugin.class.getDeclaredMethod(action,
                                 JSONArray.class, CallbackContext.class);
-                        method.invoke(NXTPlugin.this, data, callbackContext);
+                        method.invoke(NXTPushPlugin.this, data, callbackContext);
                     } catch (Exception e) {
                         Log.e(TAG, e.toString());
                     }
                 }
             });
         }
-       
+
         return true;
     }
 
     void init(JSONArray data, CallbackContext callbackContext) {
-        if(RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) { 
-            
+        if(RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) {
+
             NXTPushManager.init(cordova.getActivity().getApplicationContext());
         }else{
             IS_JIGUANG_PUSH = true;
             JPushUtil.initPlugin(cordova.getActivity().getApplicationContext());
         }
-       
+
     }
 
     void setTags(JSONArray data, CallbackContext callbackContext) {
@@ -133,8 +130,8 @@ public class NXTPlugin extends CordovaPlugin {
         }
     }
 
-    /** 极光专有方法开始 
-     * 
+    /** 极光专有方法开始
+     *
     */
     void setDebugMode(JSONArray data, CallbackContext callbackContext) {
         if(IS_JIGUANG_PUSH){
@@ -156,8 +153,10 @@ public class NXTPlugin extends CordovaPlugin {
 
     boolean isPushStopped(JSONArray data, CallbackContext callbackContext) {
      if(IS_JIGUANG_PUSH){
-            JPushUtil.isPushStopped(data,callbackContext);
+          boolean ret =  JPushUtil.isPushStopped(data,callbackContext);
+          return ret ;
         }
+      return  false;
     }
 
     void setLatestNotificationNum(JSONArray data, CallbackContext callbackContext) {
@@ -246,7 +245,7 @@ public class NXTPlugin extends CordovaPlugin {
         if(IS_JIGUANG_PUSH){
             JPushUtil.setStatisticsOpen(data,callbackContext);
         }
-        
+
     }
     void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
         if(IS_JIGUANG_PUSH){
@@ -269,7 +268,7 @@ public class NXTPlugin extends CordovaPlugin {
     /**
      * 专门用来执行来自 JPush 的执行请求
      */
-    public static void  runJSOnUiThread(String js){
+    public static void  runJSOnUiThread(final String js){
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -278,11 +277,11 @@ public class NXTPlugin extends CordovaPlugin {
         });
     }
 
-    public Activity getActivity(){
+    public static Activity getActivity(){
         return cordovaActivity;
     }
 
-   
+
     /**
      * 判断是否开启了通知权限
      */

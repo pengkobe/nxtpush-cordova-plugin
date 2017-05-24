@@ -25,16 +25,16 @@ public class HuaWeiReceiver extends PushEventReceiver {
     @Override public void onToken(Context context, String token, Bundle extras) {
         Intent intent = new Intent();
         intent.setAction(JINGOAL_PUSH_ACTION);
-        intent.putExtra(JingoalReceiver.MESSAGE_TYPE, JingoalReceiver.MessageType.COMMAND);
-        intent.putExtra(COMMAND_TYPE, JingoalReceiver.COMMAND_REGISTER);
-        intent.putExtra(JingoalReceiver.COMMAND_RESULT, true);
+        intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.COMMAND);
+        intent.putExtra(COMMAND_TYPE, NXTReceiver.COMMAND_REGISTER);
+        intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
         context.sendBroadcast(intent);
         Log.i(LOG_TAG,"HW_TOKEN:"+token);
 
         SharedPreferences sharedPreference =
-                context.getSharedPreferences(JingoalReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
+                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreference.edit();
-        edit.putString(JingoalReceiver.SP_KEY_HUAWEI_TOKEN, token);
+        edit.putString(NXTReceiver.SP_KEY_HUAWEI_TOKEN, token);
         edit.commit();
 
     }
@@ -47,9 +47,9 @@ public class HuaWeiReceiver extends PushEventReceiver {
      */
     @Override public boolean onPushMsg(Context context, byte[] msg, Bundle extras) {
         Intent intent = new Intent(JINGOAL_PUSH_ACTION);
-        intent.putExtra(PUS_CLIENT_TYPE, JingoalReceiver.PushClientType.HUA_WEI);
+        intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.HUA_WEI);
         intent.putExtra(MSG_CONTENT, new String(msg));
-        intent.putExtra(JingoalReceiver.MESSAGE_TYPE, JingoalReceiver.MessageType.MESSAGE);
+        intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.MESSAGE);
         context.sendBroadcast(intent);
         return false;
     }
@@ -77,9 +77,9 @@ public class HuaWeiReceiver extends PushEventReceiver {
             if(TYPE_TAG == reportType) {
                 Intent intent = new Intent();
                 intent.setAction(JINGOAL_PUSH_ACTION);
-                intent.putExtra(JingoalReceiver.MESSAGE_TYPE, JingoalReceiver.MessageType.COMMAND);
-                intent.putExtra(COMMAND_TYPE, JingoalReceiver.COMMAND_SET_ALIAS);
-                intent.putExtra(JingoalReceiver.COMMAND_RESULT, isSuccess);
+                intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.COMMAND);
+                intent.putExtra(COMMAND_TYPE, NXTReceiver.COMMAND_SET_ALIAS);
+                intent.putExtra(NXTReceiver.COMMAND_RESULT, isSuccess);
                 context.sendBroadcast(intent);
             }
         }

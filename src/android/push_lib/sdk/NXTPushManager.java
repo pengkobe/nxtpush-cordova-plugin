@@ -1,7 +1,7 @@
 package com.nxt.push.sdk;
 
 import android.content.Context;
-import com.nxt.push.receiver.JingoalReceiver;
+import com.nxt.push.receiver.NXTReceiver;
 import com.nxt.push.util.RomTypeUtil;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -22,14 +22,16 @@ public class NXTPushManager {
      * 注册push，初始化推送sdk
      **/
     public synchronized static void init(Context ctx) {
-        if(RomTypeUtil.isEMUI()) { 
+        if(RomTypeUtil.isEMUI()) {
             nxtPushClient = new HuaWeiPushClient();
-        } else if(RomTypeUtil.isMIUI()) { 
+          nxtPushClient.registerPush(ctx);
+        } else if(RomTypeUtil.isMIUI()) {
             nxtPushClient = new XiaomiPushClient();
+          nxtPushClient.registerPush(ctx);
         } else {
-           return false;
+
         }
-        nxtPushClient.registerPush(ctx);
+
     }
 
     /**
