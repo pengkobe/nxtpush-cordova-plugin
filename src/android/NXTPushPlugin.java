@@ -37,6 +37,35 @@ public class NXTPlugin extends CordovaPlugin {
                     "setTags",
             );
 
+    private final static List<String> jPushMethodList =
+            Arrays.asList(
+                    "addLocalNotification",
+                    "clearAllNotification",
+                    "clearLocalNotifications",
+                    "clearNotificationById",
+                    "getNotification",
+                    "getRegistrationID",
+                    "initPlugin",
+                    "isPushStopped",
+                    "onPause",
+                    "onResume",
+                    // "requestPermission",
+                    "removeLocalNotification",
+                    "reportNotificationOpened",
+                    "resumePush",
+                   // "setAlias",
+                    "setBasicPushNotificationBuilder",
+                    "setCustomPushNotificationBuilder",
+                    "setDebugMode",
+                    "setLatestNotificationNum",
+                    "setPushTime",
+                    // "setTags",
+                    "setTagsWithAlias",
+                    "setSilenceTime",
+                    "setStatisticsOpen",
+                    "stopPush"
+            );
+
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private static NXTPlugin instance;
     private static Activity cordovaActivity;
@@ -64,21 +93,40 @@ public class NXTPlugin extends CordovaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray data,
                            final CallbackContext callbackContext) throws JSONException {
-        if (!methodList.contains(action)) {
-            return false;
+        if (!jPushMethodList.contains(action) && !methodList.contains(action)) {
+                return false;
         }
-        threadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Method method = NXTPlugin.class.getDeclaredMethod(action,
-                            JSONArray.class, CallbackContext.class);
-                    method.invoke(NXTPlugin.this, data, callbackContext);
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
+        if (methodList.contains(action)) {
+             threadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Method method = NXTPlugin.class.getDeclaredMethod(action,
+                                JSONArray.class, CallbackContext.class);
+                        method.invoke(NXTPlugin.this, data, callbackContext);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // 如果是极光方法
+        if (jPushMethodList.contains(action)) {
+               threadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Method method = JPushUtil.class.getDeclaredMethod(action,
+                                JSONArray.class, CallbackContext.class);
+                        method.invoke(JPushUtil.this, data, callbackContext);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+            });
+        }
+       
         return true;
     }
 

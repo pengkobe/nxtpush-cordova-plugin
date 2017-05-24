@@ -85,7 +85,7 @@ public class JPushUtil  {
         instance = this;
     }
 
-    public void InitPlugin(Context ctx) {
+    public void initPlugin(Context ctx) {
         Log.i(TAG, "JPush initialize.");
         cordovaCxt = ctx;
         JPushInterface.init(ctx);

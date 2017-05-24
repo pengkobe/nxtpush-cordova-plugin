@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jingoal.push">
+    package="com.nxt.push">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -19,18 +19,27 @@
     <!-- iBeancon功能与个推3.0电子围栏功能所需要的权限为非必需的可选择权限，可以选择性配置，以便使用个推3.0电子围栏功能 -->
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <!-- 个推3.0电子围栏功能所需权限 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!-- 浮动通知权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <!-- 小米推送权限  结束 -->
 
+    <!-- 极光推送权限 -->
+    <uses-permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
+               android:protectionLevel="signature" />
+    <!-- 极光推送结束 -->
+
     <application>
         <!-- 华为推送SDK配置开始 -->
         <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
-        <receiver android:name="com.jingoal.push.receiver.HuaWeiReceiver">
+        <receiver android:name="com.nxt.push.receiver.HuaWeiReceiver">
             <intent-filter>
                 <!-- 必须,用于接收token-->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
@@ -111,7 +120,7 @@
             android:enabled="true"/>
 
         <receiver
-            android:name="com.jingoal.push.receiver.XiaomiReceiver"
+            android:name="com.nxt.push.receiver.XiaomiReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>
@@ -142,72 +151,107 @@
         </receiver>
         <!-- 小米推送SDK配置结束 -->
 
-        <!-- 个推SDK配置开始 -->
-        <!-- 配置SDK核心服务 -->
-        <service
-            android:name="com.igexin.sdk.PushService"
-            android:exported="true"
-            android:label="NotificationCenter"
-            android:process=":igepushservice">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.service.message"/>
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.igexin.sdk.PushServiceUser"
-            android:exported="true"
-            android:label="NotificationCenterUser">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.user.message"/>
-            </intent-filter>
-        </service>
+      <!-- 极光推送开始--->
+     <!-- Required SDK核心功能-->
+            <activity android:name="cn.jpush.android.ui.PushActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                android:configChanges="orientation|keyboardHidden">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.ui.PushActivity" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </activity>
 
-        <receiver android:name="com.igexin.sdk.PushReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="com.igexin.sdk.action.refreshls"/>
-                <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
-                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.igexin.sdk.PushManagerReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.pushmanager"/>
-            </intent-filter>
-        </receiver>
+            <!-- Rich push 核心功能 since 2.0.6-->
+            <activity android:name="cn.jpush.android.ui.PopWinActivity"
+                android:theme="@style/MyDialogStyle"
+                android:exported="false">
+            </activity>
 
-        <activity
-            android:name="com.igexin.sdk.PushActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:process=":igepushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity
-            android:name="com.igexin.sdk.GActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:process=":igepushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            <!-- Required  SDK核心功能-->
+            <service android:name="cn.jpush.android.service.DownloadService"
+               android:enabled="true"
+               android:exported="false">
+            </service>
 
-        <service
-            android:name="com.igexin.download.DownloadService"
-            android:process=":igepushservice"/>
-        <receiver android:name="com.igexin.download.DownloadReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
-        </receiver>
+            <!-- Required SDK 核心功能-->
+            <service android:name="cn.jpush.android.service.PushService"
+              android:enabled="true"
+              android:exported="false"
+              android:process=":remote">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.REGISTER" />
+                    <action android:name="cn.jpush.android.intent.REPORT" />
+                    <action android:name="cn.jpush.android.intent.PushService" />
+                    <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+                </intent-filter>
+            </service>
 
-        <!-- 个推SDK配置结束 -->
+            <!-- Required SDK核心功能-->
+            <receiver android:name="cn.jpush.android.service.PushReceiver"
+              android:enabled="true"
+              android:exported="false">
+                <intent-filter android:priority="1000">
+                    <!--Required  显示通知栏 -->
+                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="android.intent.action.USER_PRESENT" />
+                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                </intent-filter>
+                <!-- Optional -->
+                <intent-filter>
+                    <action android:name="android.intent.action.PACKAGE_ADDED" />
+                    <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                    <data android:scheme="package" />
+                </intent-filter>
+            </receiver>
 
+            <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+            <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+            <service android:name="cn.jpush.android.service.DaemonService"
+               android:enabled="true"
+               android:exported="true">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.DaemonService" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </service>
+
+            <!-- User defined.  For test only  用户自定义的广播接收器 -->
+            <receiver android:name="cn.jpush.phonegap.MyReceiver" android:enabled="true">
+                <intent-filter android:priority="1000">
+                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                    <!-- Required  显示通知栏 -->
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                    <!-- Required  用户注册SDK的intent -->
+                    <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                    <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                    <!-- Required  用户接收SDK消息的intent -->
+                    <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                    <!-- Required  用户接收SDK通知栏信息的intent -->
+                    <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                    <!-- Required  用户打开自定义通知栏的intent -->
+                    <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                    <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </receiver>
+
+            <!-- Required SDK核心功能-->
+            <receiver
+              android:name="cn.jpush.android.service.AlarmReceiver"
+              android:exported="false" />
+
+            <!-- Required. Enable it you can get statistics data with channel -->
+            <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
+            <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
+        <!-- 极光配置结束 -->
     </application>
 
 </manifest>
