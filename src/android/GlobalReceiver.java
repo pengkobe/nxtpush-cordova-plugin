@@ -1,4 +1,4 @@
-package com.jingoal.pushdemo.receiver;
+package com.eegrid.phonegap;
 
 import android.content.Context;
 import android.util.Log;

@@ -27,6 +27,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.nxt.push.util;
+import com.nxt.push.sdk;
+
 public class NXTPlugin extends CordovaPlugin {
     private final static List<String> methodList =
             Arrays.asList(
@@ -35,41 +38,38 @@ public class NXTPlugin extends CordovaPlugin {
                     "requestPermission",
                     "setAlias",
                     "setTags",
-            );
 
-    private final static List<String> jPushMethodList =
-            Arrays.asList(
+                    // 以下为极光专有
+                    "setCustomPushNotificationBuilder",
                     "addLocalNotification",
                     "clearAllNotification",
                     "clearLocalNotifications",
-                    "clearNotificationById",
-                    "getNotification",
-                    "getRegistrationID",
-                    "initPlugin",
-                    "isPushStopped",
+                    "clearNotificationById",     
+                    "getRegistrationID",       
+                    "isPushStopped", 
                     "onPause",
                     "onResume",
-                    // "requestPermission",
                     "removeLocalNotification",
                     "reportNotificationOpened",
                     "resumePush",
-                   // "setAlias",
+                    "getNotification",
                     "setBasicPushNotificationBuilder",
-                    "setCustomPushNotificationBuilder",
                     "setDebugMode",
                     "setLatestNotificationNum",
                     "setPushTime",
-                    // "setTags",
                     "setTagsWithAlias",
                     "setSilenceTime",
                     "setStatisticsOpen",
                     "stopPush"
             );
 
+
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private static NXTPlugin instance;
     private static Activity cordovaActivity;
     private static String TAG = "NXTPlugin";
+
+    private static boolean IS_JIGUANG_PUSH = false;
 
     public NXTPlugin() {
         instance = this;
@@ -80,7 +80,6 @@ public class NXTPlugin extends CordovaPlugin {
         Log.i(TAG, "NXTPush initialize.");
         super.initialize(cordova, webView);
         cordovaActivity = cordova.getActivity();
-      
     }
 
     @Override
@@ -93,9 +92,6 @@ public class NXTPlugin extends CordovaPlugin {
     @Override
     public boolean execute(final String action, final JSONArray data,
                            final CallbackContext callbackContext) throws JSONException {
-        if (!jPushMethodList.contains(action) && !methodList.contains(action)) {
-                return false;
-        }
         if (methodList.contains(action)) {
              threadPool.execute(new Runnable() {
                 @Override
@@ -110,39 +106,170 @@ public class NXTPlugin extends CordovaPlugin {
                 }
             });
         }
-
-        // 如果是极光方法
-        if (jPushMethodList.contains(action)) {
-               threadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Method method = JPushUtil.class.getDeclaredMethod(action,
-                                JSONArray.class, CallbackContext.class);
-                        method.invoke(JPushUtil.this, data, callbackContext);
-                    } catch (Exception e) {
-                        Log.e(TAG, e.toString());
-                    }
-                }
-            });
-        }
        
         return true;
     }
 
     void init(JSONArray data, CallbackContext callbackContext) {
+        if(RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) { 
+            
+            NXTPushManager.init(cordova.getActivity().getApplicationContext());
+        }else{
+            IS_JIGUANG_PUSH = true;
+            JPushUtil.initPlugin(cordova.getActivity().getApplicationContext());
+        }
+       
     }
 
     void setTags(JSONArray data, CallbackContext callbackContext) {
+         if(IS_JIGUANG_PUSH){
+            JPushUtil.setTags(data,callbackContext);
+        }
     }
 
     void setAlias(JSONArray data, CallbackContext callbackContext) {
+         if(IS_JIGUANG_PUSH){
+            JPushUtil.setAlias(data,callbackContext);
+        }
     }
+
+    /** 极光专有方法开始 
+     * 
+    */
+    void setDebugMode(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setDebugMode(data,callbackContext);
+        }
+    }
+
+    void stopPush(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.stopPush(data,callbackContext);
+        }
+    }
+
+    void resumePush(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.resumePush(data,callbackContext);
+        }
+    }
+
+    boolean isPushStopped(JSONArray data, CallbackContext callbackContext) {
+     if(IS_JIGUANG_PUSH){
+            JPushUtil.isPushStopped(data,callbackContext);
+        }
+    }
+
+    void setLatestNotificationNum(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setLatestNotificationNum(data,callbackContext);
+        }
+    }
+
+    void setPushTime(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setPushTime(data,callbackContext);
+        }
+    }
+    void getRegistrationID(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.getRegistrationID(data,callbackContext);
+        }
+    }
+
+    void onResume(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.onResume(data,callbackContext);
+        }
+    }
+
+    void onPause(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.onPause(data,callbackContext);
+        }
+    }
+
+    void reportNotificationOpened(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.reportNotificationOpened(data,callbackContext);
+        }
+    }
+
+    void setTagsWithAlias(JSONArray data, CallbackContext callbackContext) {
+       if(IS_JIGUANG_PUSH){
+            JPushUtil.setTagsWithAlias(data,callbackContext);
+        }
+    }
+
+    void setBasicPushNotificationBuilder(JSONArray data,
+                                         CallbackContext callbackContext) {
+      if(IS_JIGUANG_PUSH){
+            JPushUtil.setBasicPushNotificationBuilder(data,callbackContext);
+        }
+    }
+
+    void setCustomPushNotificationBuilder(JSONArray data,CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setCustomPushNotificationBuilder(data,callbackContext);
+        }
+    }
+    void clearAllNotification(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.clearAllNotification(data,callbackContext);
+        }
+    }
+
+    void clearNotificationById(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.clearNotificationById(data,callbackContext);
+        }
+    }
+
+    void addLocalNotification(JSONArray data, CallbackContext callbackContext)
+            throws JSONException {
+                if(IS_JIGUANG_PUSH){
+            JPushUtil.addLocalNotification(data,callbackContext);
+        }
+    }
+    void removeLocalNotification(JSONArray data, CallbackContext callbackContext)
+            throws JSONException {
+                if(IS_JIGUANG_PUSH){
+            JPushUtil.removeLocalNotification(data,callbackContext);
+        }
+    }
+    void clearLocalNotifications(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.clearLocalNotifications(data,callbackContext);
+        }
+    }
+    void setStatisticsOpen(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setStatisticsOpen(data,callbackContext);
+        }
+        
+    }
+    void setSilenceTime(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.setSilenceTime(data,callbackContext);
+        }
+    }
+     /**
+     * 用于 Android 6.0 以上系统申请权限，具体可参考：
+     * http://docs.Push.io/client/android_api/#android-60
+     */
+    void requestPermission(JSONArray data, CallbackContext callbackContext) {
+        if(IS_JIGUANG_PUSH){
+            JPushUtil.requestPermission(data,callbackContext);
+        }
+    }
+
+
+    /** 极光专有方法结束 */
 
     /**
      * 专门用来执行来自 JPush 的执行请求
      */
-    void static runJSOnUiThread(String js){
+    public static void  runJSOnUiThread(String js){
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -155,15 +282,7 @@ public class NXTPlugin extends CordovaPlugin {
         return cordovaActivity;
     }
 
-
-
-    /**
-     * 用于 Android 6.0 以上系统申请权限，具体可参考：
-     * http://docs.Push.io/client/android_api/#android-60
-     */
-    void requestPermission(JSONArray data, CallbackContext callbackContext) {
-    }
-
+   
     /**
      * 判断是否开启了通知权限
      */

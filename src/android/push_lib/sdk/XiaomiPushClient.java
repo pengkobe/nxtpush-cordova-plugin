@@ -14,9 +14,9 @@ import com.xiaomi.mipush.sdk.MiPushClient;
  */
 public class XiaomiPushClient implements NXTPushClient {
 
-    //清单文件中配置小米推送APPID的key
+    // 清单文件中配置小米推送APPID的key
     private static final String MI_PUSH_APPID = "MI_PUSH_APPID";
-    //清单文件中配置小米推送APPKEY的key
+    // 清单文件中配置小米推送APPKEY的key
     private static final String MI_PUSH_APPKEY = "MI_PUSH_APPKEY";
 
     @Override public void registerPush(Context ctx) {

@@ -22,12 +22,12 @@ public class NXTPushManager {
      * 注册push，初始化推送sdk
      **/
     public synchronized static void init(Context ctx) {
-        if(RomTypeUtil.isEMUI()) { // yipeng:判定是否为华为
+        if(RomTypeUtil.isEMUI()) { 
             nxtPushClient = new HuaWeiPushClient();
-        } else if(RomTypeUtil.isMIUI()) { // yipeng:判定是否为小米
+        } else if(RomTypeUtil.isMIUI()) { 
             nxtPushClient = new XiaomiPushClient();
-        } else { // yipeng: 剩余的使用极光推送
-            nxtPushClient = new JPushClient();
+        } else {
+           return false;
         }
         nxtPushClient.registerPush(ctx);
     }
