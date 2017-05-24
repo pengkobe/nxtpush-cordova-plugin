@@ -32,7 +32,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
 
-public class JPushPlugin  {
+public class JPushUtil  {
     private final static List<String> methodList =
             Arrays.asList(
                     "addLocalNotification",
@@ -64,8 +64,8 @@ public class JPushPlugin  {
             );
 
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
-    private static JPushPlugin instance;
-    private static String TAG = "JPushPlugin";
+    private static JPushUtil instance;
+    private static String TAG = "JPushUtil";
 
     private static boolean shouldCacheMsg = false;
     private static boolean isStatisticsOpened = false;    // 是否开启统计分析功能
@@ -81,7 +81,7 @@ public class JPushPlugin  {
     // cordova 上下文
     public static Context cordovaCxt;
 
-    public JPushPlugin() {
+    public JPushUtil() {
         instance = this;
     }
 
@@ -202,7 +202,7 @@ public class JPushPlugin  {
             return;
         }
         JSONObject data = getMessageObject(message, extras);
-        String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
+        String format = "window.plugins.NXTPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         NXTPushPlugin.runJSOnUiThread(js);
     }
@@ -213,11 +213,11 @@ public class JPushPlugin  {
             return;
         }
         JSONObject data = getNotificationObject(title, alert, extras);
-        String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
+        String format = "window.plugins.NXTPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         NXTPushPlugin.runJSOnUiThread(js);
-        JPushPlugin.openNotificationTitle = null;
-        JPushPlugin.openNotificationAlert = null;
+        JPushUtil.openNotificationTitle = null;
+        JPushUtil.openNotificationAlert = null;
     }
 
     static void transmitNotificationReceive(String title, String alert,
@@ -226,11 +226,11 @@ public class JPushPlugin  {
             return;
         }
         JSONObject data = getNotificationObject(title, alert, extras);
-        String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
+        String format = "window.plugins.NXTPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         NXTPushPlugin.runJSOnUiThread(js);
-        JPushPlugin.notificationTitle = null;
-        JPushPlugin.notificationAlert = null;
+        JPushUtil.notificationTitle = null;
+        JPushUtil.notificationAlert = null;
     }
 
     static void transmitReceiveRegistrationId(String rId) {
@@ -243,7 +243,7 @@ public class JPushPlugin  {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String format = "window.plugins.jPushPlugin.receiveRegistrationIdInAndroidCallback(%s);";
+        String format = "window.plugins.NXTPlugin.receiveRegistrationIdInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
         NXTPushPlugin.runJSOnUiThread(js);
     }
