@@ -1,4 +1,4 @@
-package com.nxt.push.receiver;
+package com.eegrid.phonegap;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,7 +26,7 @@ public class JPushReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals(JPushInterface.ACTION_REGISTRATION_ID)) {
             String rId = intent.getStringExtra(JPushInterface.EXTRA_REGISTRATION_ID);
-            JPushPlugin.transmitReceiveRegistrationId(rId);
+            JPushUtil.transmitReceiveRegistrationId(rId);
         } else if (action.equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
             handlingMessageReceive(intent);
         } else if (action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
@@ -38,31 +38,22 @@ public class JPushReceiver extends BroadcastReceiver {
 
 
     private void handlingMessageReceive(Intent intent) {
-        Intent intent = new Intent(JINGOAL_PUSH_ACTION);
-        intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.JI_GUANG);
         String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-        intent.putExtra(MSG_CONTENT, new String(msg));
-        intent.putExtra(JingoalReceiver.MESSAGE_TYPE, JingoalReceiver.MessageType.MESSAGE);
-        context.sendBroadcast(intent);
-        return false;
-
-        // yipeng:第一次改动
-        // String msg = intent.getStringExtra(JPushInterface.EXTRA_MESSAGE);
-        // Map<String, Object> extras = getNotificationExtras(intent);
-        // JPushPlugin.transmitMessageReceive(msg, extras);
+        Map<String, Object> extras = getNotificationExtras(intent);
+        JPushUtil.transmitMessageReceive(msg, extras);
     }
 
     private void handlingNotificationOpen(Context context, Intent intent) {
         String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-        JPushPlugin.openNotificationTitle = title;
+        JPushUtil.openNotificationTitle = title;
 
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
-        JPushPlugin.openNotificationAlert = alert;
+        JPushUtil.openNotificationAlert = alert;
 
         Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.openNotificationExtras = extras;
+        JPushUtil.openNotificationExtras = extras;
 
-        JPushPlugin.transmitNotificationOpen(title, alert, extras);
+        JPushUtil.transmitNotificationOpen(title, alert, extras);
 
         Intent launch = context.getPackageManager().getLaunchIntentForPackage(
                 context.getPackageName());
@@ -78,15 +69,15 @@ public class JPushReceiver extends BroadcastReceiver {
         launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-        JPushPlugin.notificationTitle = title;
+        JPushUtil.notificationTitle = title;
 
         String alert = intent.getStringExtra(JPushInterface.EXTRA_ALERT);
-        JPushPlugin.notificationAlert = alert;
+        JPushUtil.notificationAlert = alert;
 
         Map<String, Object> extras = getNotificationExtras(intent);
-        JPushPlugin.notificationExtras = extras;
+        JPushUtil.notificationExtras = extras;
 
-        JPushPlugin.transmitNotificationReceive(title, alert, extras);
+        JPushUtil.transmitNotificationReceive(title, alert, extras);
     }
 
     private Map<String, Object> getNotificationExtras(Intent intent) {

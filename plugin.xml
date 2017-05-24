@@ -4,10 +4,10 @@
   id="jpush-phonegap-plugin"
   version="3.1.6">
 
-    <name>JPush</name>
-    <description>JPush for cordova plugin</description>
-    <author>JPush</author>
-    <keywords>JPush,push</keywords>
+    <name>NXTPush</name>
+    <description>NXTPush for cordova plugin</description>
+    <author>NXTPush</author>
+    <keywords>NXTPush,push</keywords>
     <license>MIT License</license>
 
     <preference name="APP_KEY" />

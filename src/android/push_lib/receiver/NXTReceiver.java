@@ -10,8 +10,8 @@ import android.content.Intent;
  */
 public abstract class NXTReceiver extends BroadcastReceiver {
 
-    public static final String LOG_TAG = "jingoal_push_tag";
-    public static final String JINGOAL_PUSH_ACTION = "com.jingoal.push.receiver.jingoalreceiver";
+    public static final String LOG_TAG = "nxt_push_tag";
+    public static final String JINGOAL_PUSH_ACTION = "com.nxt.push.receiver.nxtreceiver";
     public static final String MSG_CONTENT = "msg_content";
     public static final String PUS_CLIENT_TYPE = "push_client_type";
     
@@ -41,18 +41,14 @@ public abstract class NXTReceiver extends BroadcastReceiver {
     public static final String JINGOAL_PUSH_SP = "JingoalPushSP";
     //保存华为推送初始化生成的token
     public static final String SP_KEY_HUAWEI_TOKEN = "SPKeyHuaweiToken";
-    //极光push初始化返回的clientID
-    public static final String SP_KEY_GETUI_TOKEN = "SPKeyGeTuiClientID";
     //小米Push初始化返回的regId
     public static final String SP_KEY_XIAOMI_TOKEN = "SPKeyXiaomiRegId";
 
     /**
      * Push的客户端类型
-     * 极光:2 小米:3 华为:4
+     * 小米:3 华为:4
      */
     public static class PushClientType {
-        //极光
-        public static final int JI_GUANG = 2;
         //小米
         public static final int XIAO_MI = 3;
         //华为
