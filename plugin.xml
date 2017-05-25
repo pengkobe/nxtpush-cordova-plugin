@@ -323,9 +323,9 @@
         <source-file src="src/android/JPushUtil.java" target-dir="src/com/eegrid/phonegap" />
         <source-file src="src/android/NXTPushPlugin.java" target-dir="src/com/eegrid/phonegap" />
         <!-- package com.nxt.push.receiver; -->
-        <source-file src="src/android/push_lib/receiver/HuaWeiReceiver.java" target-dir="src/com/nxt/push" />
-        <source-file src="src/android/push_lib/receiver/NXTReceiver.java" target-dir="src/com/nxt/push" />
-        <source-file src="src/android/push_lib/receiver/XiaomiReceiver.java" target-dir="src/com/nxt/push" />
+        <source-file src="src/android/push_lib/receiver/HuaWeiReceiver.java" target-dir="src/com/nxt/push/receiver" />
+        <source-file src="src/android/push_lib/receiver/NXTReceiver.java" target-dir="src/com/nxt/push/receiver" />
+        <source-file src="src/android/push_lib/receiver/XiaomiReceiver.java" target-dir="src/com/nxt/push/receiver" />
         <!-- package com.nxt.push.sdk; -->
         <source-file src="src/android/push_lib/sdk/HuaWeiPushClient.java" target-dir="src/com/nxt/push/sdk" />
         <source-file src="src/android/push_lib/sdk/NXTPushClient.java" target-dir="src/com/nxt/push/sdk" />
