@@ -16,9 +16,9 @@ public class HuaWeiPushClient implements NXTPushClient {
     }
 
     @Override public void unRegisterPush(Context context) {
-        //虽然提供了该API,但是测试时未起作用,所以此处暂时注释掉,以免引起其他问题。
-        //比如:某一天华为后台修复此问题,如果启用该方法,客户端收不到消息,下次再调用requestToken可能依然收不到消息,
-        //因为其他API出现过类似情况,所以此处是合理怀疑
+        // 虽然提供了该API,但是测试时未起作用,所以此处暂时注释掉,以免引起其他问题。
+        // 比如:某一天华为后台修复此问题,如果启用该方法,客户端收不到消息,下次再调用requestToken可能依然收不到消息,
+        // 因为其他API出现过类似情况,所以此处是合理怀疑
         //PushManager.deregisterToken(context,getToken(context));
 
         SharedPreferences sharedPreference =

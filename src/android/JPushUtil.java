@@ -84,7 +84,7 @@ public class JPushUtil  {
   public static void initPlugin(Context ctx) {
     Log.i(TAG, "JPush initialize.");
     cordovaCxt = ctx;
-    JPushInterface.init(ctx);
+    JPushInterface.init(cordovaCxt);
     //如果同时缓存了打开事件 openNotificationAlert 和 消息事件 notificationAlert，只向 UI 发打开事件。
     //这样做是为了和 iOS 统一。
     if (openNotificationAlert != null) {
@@ -366,7 +366,15 @@ public class JPushUtil  {
   }
 
   public static void setAlias(JSONArray data, CallbackContext callbackContext) {
-
+    try {
+      String alias = data.getString(0);
+      JPushInterface.setAlias(cordovaCxt,
+        alias, mTagWithAliasCallback);
+      callbackContext.success();
+    } catch (JSONException e) {
+      e.printStackTrace();
+      callbackContext.error("Error reading alias JSON");
+    }
   }
 
   public static void setTagsWithAlias(JSONArray data, CallbackContext callbackContext) {

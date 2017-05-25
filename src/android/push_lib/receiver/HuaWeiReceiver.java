@@ -31,7 +31,11 @@ public class HuaWeiReceiver extends PushEventReceiver {
         context.sendBroadcast(intent);
         Log.i(LOG_TAG,"HW_TOKEN:"+token);
 
-        SharedPreferences sharedPreference =
+
+        /**
+         * 将华为 token 存储在本地，便于 unRegister 使用
+         */
+      SharedPreferences sharedPreference =
                 context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreference.edit();
         edit.putString(NXTReceiver.SP_KEY_HUAWEI_TOKEN, token);

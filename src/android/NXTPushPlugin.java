@@ -109,9 +109,10 @@ public class NXTPushPlugin extends CordovaPlugin {
 
     void init(JSONArray data, CallbackContext callbackContext) {
         if(RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) {
-
+            // 注册华为与小米
             NXTPushManager.init(cordova.getActivity().getApplicationContext());
         }else{
+            // 注册极光
             IS_JIGUANG_PUSH = true;
             JPushUtil.initPlugin(cordova.getActivity().getApplicationContext());
         }
@@ -314,6 +315,7 @@ public class NXTPushPlugin extends CordovaPlugin {
             Object result = checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg);
             return Integer.parseInt(result.toString()) == AppOpsManager.MODE_ALLOWED;
         } catch (InvocationTargetException e) {
+            Log.i(TAG, "JPush InvocationTargetException.");
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
