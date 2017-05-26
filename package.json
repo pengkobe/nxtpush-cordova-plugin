@@ -11,7 +11,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jpush/jpush-phonegap-plugin.git"
+        "url": "git+https://github.com/pengkobe/NXT-Cordova-PushPlugin.git"
     },
     "keywords": [
         "NXTPush",
@@ -23,16 +23,16 @@
     ],
     "engines": [{
         "name": "cordova",
-        "version": ">=3.0"
+        "version": ">=4.0"
     }],
     "dependencies": {
-        "cordova-plugin-device": "*",
-        "cordova-plugin-jcore": "1.1.4"
+        "cordova-plugin-jcore": "1.1.4",
+        "cordova-plugin-device": "*"
     },
-    "author": "JiGuang",
+    "author": "yipeng",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/jpush/jpush-phonegap-plugin/issues"
+        "url": "https://github.com/pengkobe/NXT-Cordova-PushPlugin/issues"
     },
-    "homepage": "https://github.com/jpush/jpush-phonegap-plugin#readme"
+    "homepage": "https://github.com/pengkobe/NXT-Cordova-PushPlugin#readme"
 }

@@ -520,6 +520,7 @@ public class JPushUtil  {
   private static final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
     @Override
     public void gotResult(int code, String alias, Set<String> tags) {
+      
       JSONObject data = new JSONObject();
       try {
         data.put("resultCode", code);
