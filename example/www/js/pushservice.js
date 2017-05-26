@@ -1,3 +1,6 @@
+/**
+ * Created by Administrator on 2017/4/1.
+ */
 angular.module('starter.services')
   .factory('JPushService', ['$window',   '$rootScope', '$state', '$timeout',
     function ($window, $rootScope, $state,$timeout) {
@@ -20,7 +23,7 @@ angular.module('starter.services')
             _stopPush();
           }
         }
-          alert("setTagsWithAliasCallback啦！");
+        alert("setTagsWithAliasCallback啦！");
         $rootScope.$broadcast('setTagsWithAliasCallback', event);
       }
       var openNotificationCallback = function (data) {

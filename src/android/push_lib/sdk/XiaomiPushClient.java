@@ -21,13 +21,16 @@ public class XiaomiPushClient implements NXTPushClient {
 
     @Override public void registerPush(Context ctx) {
         try {
+            Log.i("小米RegisterPush", "========================");
             ApplicationInfo applicationInfo = ctx.getPackageManager()
                 .getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
             if(applicationInfo!=null && applicationInfo.metaData!=null) {
                 String appid = applicationInfo.metaData.getString(MI_PUSH_APPID);
                 String appkey = applicationInfo.metaData.getString(MI_PUSH_APPKEY);
                 if(!TextUtils.isEmpty(appid) && !TextUtils.isEmpty(appkey)) {
-                    MiPushClient.registerPush(ctx, appid, appkey);
+                    MiPushClient.registerPush(ctx, "2882303761517580870", "5681758071870");
+                  Log.i("小米RegisterPush appid", appid);
+                  Log.i("小米RegisterPush appkey", appkey);
                 } else {
                     Log.e(NXTReceiver.LOG_TAG, "APPID = "
                         + appid
@@ -53,6 +56,7 @@ public class XiaomiPushClient implements NXTPushClient {
     }
 
     @Override public void setAlias(Context context, String deviceId, String alias) {
+        Log.i("小米alias", alias);
         MiPushClient.setAlias(context, alias, null);
     }
 
