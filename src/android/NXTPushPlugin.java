@@ -270,6 +270,9 @@ public class NXTPushPlugin extends CordovaPlugin {
      * 专门用来执行来自 JPush 的执行请求
      */
     public static void  runJSOnUiThread(final String js){
+        if (instance == null) {
+          return;
+        }
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
