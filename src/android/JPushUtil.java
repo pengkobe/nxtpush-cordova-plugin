@@ -60,7 +60,6 @@ public class JPushUtil  {
     );
 
   private ExecutorService threadPool = Executors.newFixedThreadPool(1);
-  private static JPushUtil instance;
   private static String TAG = "JPushUtil";
 
   private static boolean shouldCacheMsg = false;
@@ -78,7 +77,6 @@ public class JPushUtil  {
   public static Context cordovaCxt;
 
   public JPushUtil() {
-    instance = this;
   }
 
   public static void initPlugin(Context ctx) {
@@ -194,9 +192,6 @@ public class JPushUtil  {
   }
 
   static void transmitMessageReceive(String message, Map<String, Object> extras) {
-    if (instance == null) {
-      return;
-    }
     JSONObject data = getMessageObject(message, extras);
     String format = "window.plugins.NXTPlugin.receiveMessageInAndroidCallback(%s);";
     final String js = String.format(format, data.toString());
@@ -205,9 +200,6 @@ public class JPushUtil  {
 
   static void transmitNotificationOpen(String title, String alert,
                                        Map<String, Object> extras) {
-    if (instance == null) {
-      return;
-    }
     JSONObject data = getNotificationObject(title, alert, extras);
     String format = "window.plugins.NXTPlugin.openNotificationInAndroidCallback(%s);";
     final String js = String.format(format, data.toString());
@@ -218,9 +210,6 @@ public class JPushUtil  {
 
   static void transmitNotificationReceive(String title, String alert,
                                           Map<String, Object> extras) {
-    if (instance == null) {
-      return;
-    }
     JSONObject data = getNotificationObject(title, alert, extras);
     String format = "window.plugins.NXTPlugin.receiveNotificationInAndroidCallback(%s);";
     final String js = String.format(format, data.toString());
@@ -230,9 +219,6 @@ public class JPushUtil  {
   }
 
   static void transmitReceiveRegistrationId(String rId) {
-    if (instance == null) {
-      return;
-    }
     JSONObject data = new JSONObject();
     try {
       data.put("registrationId", rId);
@@ -534,9 +520,6 @@ public class JPushUtil  {
   private static final TagAliasCallback mTagWithAliasCallback = new TagAliasCallback() {
     @Override
     public void gotResult(int code, String alias, Set<String> tags) {
-      if (instance == null) {
-        return;
-      }
       JSONObject data = new JSONObject();
       try {
         data.put("resultCode", code);
