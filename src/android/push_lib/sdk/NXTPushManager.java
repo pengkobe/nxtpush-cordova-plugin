@@ -1,6 +1,7 @@
 package com.nxt.push.sdk;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.nxt.push.receiver.NXTReceiver;
 import com.nxt.push.util.RomTypeUtil;
@@ -24,12 +25,15 @@ public class NXTPushManager {
    **/
   public synchronized static void init(Context ctx) {
     if (RomTypeUtil.isEMUI()) {
+      Log.i("华为初始化推送sdk", "========================");
       nxtPushClient = new HuaWeiPushClient();
       nxtPushClient.registerPush(ctx);
     } else if (RomTypeUtil.isMIUI()) {
+      Log.i("小米初始化推送sdk", "========================");
       nxtPushClient = new XiaomiPushClient();
       nxtPushClient.registerPush(ctx);
     } else {
+      Log.i("怪物出现了", "========================");
     }
 
   }
@@ -50,8 +54,11 @@ public class NXTPushManager {
    * @param alias    客户端别名
    **/
   public static void setAlias(Context context, String deviceId, String alias) {
+    Log.i("小米设置别名", "========================");
     if (nxtPushClient != null) {
       nxtPushClient.setAlias(context, deviceId, alias);
+    }else {
+      Log.i("小米设置别名nxtPushClient不存在", "========================");
     }
   }
 

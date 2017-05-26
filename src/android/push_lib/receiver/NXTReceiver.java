@@ -3,6 +3,7 @@ package com.nxt.push.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * 今目标推送消息广播接收器,用于接收不同厂家的第三方push sdk推送过来的消息,统一处理,
@@ -67,8 +68,10 @@ public abstract class NXTReceiver extends BroadcastReceiver {
 
   @Override
   public final void onReceive(Context context, Intent intent) {
+    Log.i("NXTReceiver", "我收到消息了！");
     if (MessageType.MESSAGE.equals(intent.getStringExtra(MESSAGE_TYPE))) {
       if (intent.getIntExtra(PUS_CLIENT_TYPE, -1) == PushClientType.XIAO_MI) {
+        Log.i("onNotificationMClicked", "就要出发JS方法了");
         onNotificationMessageClicked(context, intent.getStringExtra(MSG_CONTENT));
       } else {
         onReceivePassThroughMessage(context, intent.getStringExtra(MSG_CONTENT));

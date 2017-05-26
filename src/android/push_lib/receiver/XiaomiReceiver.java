@@ -26,12 +26,16 @@ import static com.xiaomi.mipush.sdk.MiPushClient.COMMAND_REGISTER;
  */
 public class XiaomiReceiver extends PushMessageReceiver {
 
+  public XiaomiReceiver() {
+    super();
+  }
   /**
    * 方法用来接收服务器向客户端发送的自定义动作通知消息，
    * 这个回调方法会在用户手动点击通知后触发
    */
   @Override
   public void onNotificationMessageClicked(Context context, MiPushMessage message) {
+    Log.i("小米消息被点击:", message.toString());
     Intent intent = new Intent(JINGOAL_PUSH_ACTION);
     intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.XIAO_MI);
     intent.putExtra(MSG_CONTENT, message.getContent());
@@ -94,6 +98,43 @@ public class XiaomiReceiver extends PushMessageReceiver {
 
   @Override
   public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
+    Log.i("小米onReceiveRegisterRt", message.toString());
     super.onReceiveRegisterResult(context, message);
   }
+
+  /**
+   * 接收到通知消息
+   * @param context
+   * @param miPushMessage
+     */
+  @Override
+  public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
+    Log.i("小米onNotificationRt", miPushMessage.toString());
+    Intent intent = new Intent(JINGOAL_PUSH_ACTION);
+    intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.XIAO_MI);
+    intent.putExtra(MSG_CONTENT, miPushMessage.getTitle());
+    intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.MESSAGE);
+    context.sendBroadcast(intent);
+  }
+
+  @Override
+  public void onReceiveMessage(Context context, MiPushMessage miPushMessage) {
+    Log.i("小米onReceiveMessage", miPushMessage.toString());
+    Intent intent = new Intent(JINGOAL_PUSH_ACTION);
+    intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.XIAO_MI);
+    intent.putExtra(MSG_CONTENT, miPushMessage.getTitle());
+    intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.MESSAGE);
+    context.sendBroadcast(intent);
+  }
+
+  @Override
+  public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
+    Log.i("小米assThroughMessage", miPushMessage.toString());
+    Intent intent = new Intent(JINGOAL_PUSH_ACTION);
+    intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.XIAO_MI);
+    intent.putExtra(MSG_CONTENT, miPushMessage.getTitle());
+    intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.MESSAGE);
+    context.sendBroadcast(intent);
+  }
+
 }
