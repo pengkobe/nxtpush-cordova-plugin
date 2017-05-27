@@ -26,8 +26,10 @@ public class Demo
         {
             
             /*
-             * 获取token的方法 appId为开发者联盟上面创建应用的APP ID appKey为开发者联盟上面创建应用的 APP SECRET
-             * APP ID：appid100       应用包名：com.open.test    |   APP SECRET：xxxxdtsb4abxxxlz2uyztxxxfaxxxxxx
+             * 获取token的方法 appId为开发者联盟上面创建应用的APP ID 
+             * appKey为开发者联盟上面创建应用的 APP SECRET
+             * APP ID：appid100       
+             * 应用包名：com.open.test    |   APP SECRET：xxxxdtsb4abxxxlz2uyztxxxfaxxxxxx
              */
             OAuth2Client oauth2Client = new OAuth2Client();
             oauth2Client.initKeyStoreStream(Demo.class.getResource("/mykeystorebj.jks").openStream(), "123456");
