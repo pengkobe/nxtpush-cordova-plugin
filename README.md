@@ -1,5 +1,17 @@
 # NXT-Cordova-PushPlugin
-aim to one plugin for all platform use
+集成 极光推送、华为推送、小米推送的 Cordova 插件。
+
+## 注意事项
+* 安装插件时需要填写极光推送对应的 APPKEY，参考 plugin.xml 中 `$JIPUSH_APPKEY`
+* 安装插件时需要填写小米推送对应的 APPKEY 与 APPID，参考 plugin.xml 中 `$MI_PUSH_APPID` 与 `$MI_PUSH_APPKEY`
+* 华为不需要填写相关信息
+* IOS 端推送逻辑使用极光版本
+
+## 关于example
+例子基于 ionic，当然你也可以不基于 ionic，参考极光官方例子即可。
+使用 ```ionic start myApp tabs```安装ionic 初始模板，
+将 example 里的代码替换至 www/ 下的代码即可。
+
 
 ## License
 MIT

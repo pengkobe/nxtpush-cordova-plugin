@@ -10,7 +10,7 @@
     <keywords>NXTPush,push</keywords>
     <license>MIT License</license>
 
-    <!--<preference name="APP_KEY" />-->
+    <!--<preference name="JIPUSH_APPKEY" />-->
 
     <engines>
         <engine name="cordova" version=">=3.0" />
