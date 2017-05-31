@@ -326,9 +326,10 @@ NXTPlugin.prototype.setPushTime = function (weekdays, startHour, endHour) {
 // 收到华为token
 NXTPlugin.prototype.onReceiveHuaWeiToken = function (token) {
   if (device.platform == 'Android') {
-      token = JSON.stringify(token)
-      console.log('NXTPlugin:onReceiveHuaWeiTokenCallBack: ' + token)
-      cordova.fireDocumentEvent('jpush.onReceiveHuaWeiToken', token)
+      var data = JSON.stringify(token)
+      console.log('NXTPlugin:onReceiveHuaWeiTokenCallBack: '+ data)
+      this.receiveHWToken = JSON.parse(data)
+      cordova.fireDocumentEvent('jpush.onReceiveHuaWeiToken',  this.receiveHWToken)
   }
 }
 
