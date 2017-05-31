@@ -67,4 +67,21 @@ public class GlobalReceiver extends NXTReceiver {
     Log.i("holo_push", "command :" + command);
     Log.i("holo_push", "command Result :" + success);
   }
+
+  @Override
+  public void onHuaWeiRigisterResult(Context context, String token, boolean success) {
+    Log.i("华为返回token:", token);
+    String format = "window.plugins.NXTPlugin.onReceiveHuaWeiToken(%s);";
+    try {
+      JSONObject data = new JSONObject();
+      data.put("token", token);
+      final String js = String.format(format, data.toString());
+      NXTPushPlugin.runJSOnUiThread(js);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    Log.i("华为返回token end", "========================");
+  }
+
+
 }

@@ -25,17 +25,18 @@ public class HuaWeiReceiver extends PushEventReceiver {
     @Override public void onToken(Context context, String token, Bundle extras) {
         Intent intent = new Intent();
         intent.setAction(JINGOAL_PUSH_ACTION);
+        intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.HUA_WEI);
         intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.COMMAND);
         intent.putExtra(COMMAND_TYPE, NXTReceiver.COMMAND_REGISTER);
         intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
+        intent.putExtra(MSG_CONTENT, new String(token));
         context.sendBroadcast(intent);
         Log.i(LOG_TAG,"HW_TOKEN:"+token);
-
 
         /**
          * 将华为 token 存储在本地，便于 unRegister 使用
          */
-      SharedPreferences sharedPreference =
+        SharedPreferences sharedPreference =
                 context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreference.edit();
         edit.putString(NXTReceiver.SP_KEY_HUAWEI_TOKEN, token);
