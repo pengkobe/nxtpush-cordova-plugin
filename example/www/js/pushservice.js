@@ -30,6 +30,11 @@ angular.module("starter.services").factory("JPushService", [
     };
     var openNotificationCallback = function(data) {
       var type = ionic.Platform.isAndroid() ? data.extras.Type : data.Type;
+      // 处理华为手机
+      if(!type){
+           var extras = JSON.parse(data.extras);
+           type=ionic.Platform.isAndroid()?extras[0].Type:data.Type;
+      }
       if (type == 1) {
         $state.go("tab.chats");
       } else if (type == 2) {
