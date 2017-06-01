@@ -64,6 +64,9 @@ public abstract class NXTReceiver extends BroadcastReceiver {
     public static final String COMMAND = "command";
     //服务推送的消息
     public static final String MESSAGE = "message";
+    // 打开消息
+    public static final String OPENNOTIFICATION = "opennotification";
+
   }
 
   @Override
@@ -81,10 +84,13 @@ public abstract class NXTReceiver extends BroadcastReceiver {
         // 华为本地注册生产token
         onHuaWeiRigisterResult(context, intent.getStringExtra(MSG_CONTENT),
           intent.getBooleanExtra(COMMAND_RESULT, false));
+
       }else{
         onCommandResult(context, intent.getStringExtra(COMMAND_TYPE),
           intent.getBooleanExtra(COMMAND_RESULT, false));
       }
+    }else  if(NXTReceiver.MessageType.OPENNOTIFICATION.equals(intent.getStringExtra(MESSAGE_TYPE))){
+      onNotificationMessageClicked(context, intent.getStringExtra(MSG_CONTENT));
     }
   }
 

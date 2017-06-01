@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.app.NotificationManager;
 import com.huawei.android.pushagent.api.PushEventReceiver;
 
 import static com.nxt.push.receiver.NXTReceiver.COMMAND_TYPE;
@@ -75,6 +76,7 @@ public class HuaWeiReceiver extends PushEventReceiver {
      * }<pre/>
      */
     @Override public void onEvent(Context context, Event event, Bundle extras) {
+        // 标签上报回应
         if (Event.PLUGINRSP.equals(event)) {
             final int TYPE_TAG = 2;
             int reportType = extras.getInt(BOUND_KEY.PLUGINREPORTTYPE, -1);
@@ -88,5 +90,21 @@ public class HuaWeiReceiver extends PushEventReceiver {
                 context.sendBroadcast(intent);
             }
         }
+
+      // 通知栏中的通知被点击打开
+      if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
+        int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
+        if (0 != notifyId) {
+          NotificationManager manager = (NotificationManager) context
+            .getSystemService(Context.NOTIFICATION_SERVICE);
+          manager.cancel(notifyId);
+        }
+        String message = extras.getString(BOUND_KEY.pushMsgKey);
+        Intent intent = new Intent(JINGOAL_PUSH_ACTION);
+        intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.HUA_WEI);
+        intent.putExtra(MSG_CONTENT, message);
+        intent.putExtra(NXTReceiver.MESSAGE_TYPE, NXTReceiver.MessageType.OPENNOTIFICATION);
+        context.sendBroadcast(intent);
+      }
     }
 }

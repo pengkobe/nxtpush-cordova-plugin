@@ -34,7 +34,7 @@ public class GlobalReceiver extends NXTReceiver {
   }
 
   /**
-   * 小米通知栏消息被点击（事实上，不仅仅包括被点击的消息 ）
+   * 小米/华为 通知栏消息被点击（事实上，不仅仅包括被点击的消息 ）
    *
    * @param context
    * @param message 收到的具体的消息内容
@@ -42,11 +42,11 @@ public class GlobalReceiver extends NXTReceiver {
   @Override
   public void onNotificationMessageClicked(Context context, String message) {
     Log.i("holo_push begin", "========================");
-    Log.i("holo_push", "小米消息:  " + message);
+    Log.i("holo_push", "小米消息/华为消息:  " + message);
     String format = "window.plugins.NXTPlugin.openNotificationInAndroidCallback(%s);";
     try {
       JSONObject data = new JSONObject();
-      data.put("message", message);
+      data.put("extras", message);
       final String js = String.format(format, data.toString());
       NXTPushPlugin.runJSOnUiThread(js);
     } catch (JSONException e) {
@@ -54,6 +54,8 @@ public class GlobalReceiver extends NXTReceiver {
     }
     Log.i("holo_push end", "========================");
   }
+
+
 
   /**
    * 接收命令设置返回信息
