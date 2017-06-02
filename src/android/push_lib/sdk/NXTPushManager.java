@@ -52,6 +52,7 @@ public class NXTPushManager {
    **/
   public static void stopPush(Context ctx) {
     if (nxtPushClient != null) {
+      Log.i("推送设置:", "您关闭了 华为/小米 推送");
       nxtPushClient.stopPush(ctx);
     }
   }
@@ -61,6 +62,7 @@ public class NXTPushManager {
    **/
   public static void resumePush(Context ctx) {
     if (nxtPushClient != null) {
+      Log.i("推送设置:", "您开启了 华为/小米 推送");
       nxtPushClient.resumePush(ctx);
     }
   }

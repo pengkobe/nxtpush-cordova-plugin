@@ -60,7 +60,13 @@ public class HuaWeiReceiver extends PushEventReceiver {
         return false;
     }
 
-    /**
+  @Override
+  public void onPushState(Context context, boolean b) {
+    String ret = b? "打开了(true)" :"关闭了(false)";
+    Log.i("HUAWEI onPushState", ret);
+  }
+
+  /**
      * 供子类继承实现,实现业务事件。该方法会在设置标签、LBS信息之后、点击打开通知栏消息、
      * 点击通知栏上的按钮之后被调用。由业务决定是否调用该函数。
      *
