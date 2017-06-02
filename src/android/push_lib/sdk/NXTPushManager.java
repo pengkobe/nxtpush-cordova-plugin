@@ -48,16 +48,35 @@ public class NXTPushManager {
   }
 
   /**
+   * 停止推送
+   **/
+  public static void stopPush(Context ctx) {
+    if (nxtPushClient != null) {
+      nxtPushClient.stopPush(ctx);
+    }
+  }
+
+  /**
+   * 恢复推送
+   **/
+  public static void resumePush(Context ctx) {
+    if (nxtPushClient != null) {
+      nxtPushClient.resumePush(ctx);
+    }
+  }
+
+
+  /**
    * 设置别名
    *
    * @param deviceId 手机唯一ID，客户端统一的算法生成
    * @param alias    客户端别名
    **/
   public static void setAlias(Context context, String deviceId, String alias) {
-    Log.i("小米设置别名", "========================");
     if (nxtPushClient != null) {
+      Log.i("小米华为设置别名", "========================");
       nxtPushClient.setAlias(context, deviceId, alias);
-    }else {
+    } else {
       Log.i("小米设置别名nxtPushClient不存在", "========================");
     }
   }

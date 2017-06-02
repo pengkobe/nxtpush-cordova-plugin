@@ -19,6 +19,15 @@ public interface NXTPushClient {
     void unRegisterPush(Context ctx);
 
     /**
+     * 停止推送
+     **/
+    void stopPush(Context ctx);
+
+    /**
+     * 恢复推送
+     **/
+    void resumePush(Context ctx);
+    /**
      * 设置别名
      *
      * @param deviceId 手机唯一ID，客户端统一的算法生成

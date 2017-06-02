@@ -109,7 +109,7 @@ public class NXTPushPlugin extends CordovaPlugin {
 
   void init(JSONArray data, CallbackContext callbackContext) {
     if (RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) {
-      // 注册华为与小米
+      // 注册华为
       NXTPushManager.init(cordova.getActivity().getApplicationContext());
     } else {
       // 注册极光
@@ -129,8 +129,12 @@ public class NXTPushPlugin extends CordovaPlugin {
       if (IS_JIGUANG_PUSH) {
         JPushUtil.setAlias(data, callbackContext);
       } else {
-        // 注册华为与小米
-        NXTPushManager.setAlias(cordova.getActivity().getApplicationContext(), "USELESS", data.getString(0));
+
+        if( data.getString(0) == ""){ // 与极光 api 耦合
+          NXTPushManager.unRegisterPush(cordova.getActivity().getApplicationContext());
+        }else{ // 注册华为与小米
+          NXTPushManager.setAlias(cordova.getActivity().getApplicationContext(), "USELESS", data.getString(0));
+        }
       }
     } catch (JSONException e) {
       e.printStackTrace();
@@ -151,12 +155,16 @@ public class NXTPushPlugin extends CordovaPlugin {
   void stopPush(JSONArray data, CallbackContext callbackContext) {
     if (IS_JIGUANG_PUSH) {
       JPushUtil.stopPush(data, callbackContext);
+    }else{
+      NXTPushManager.stopPush(cordova.getActivity().getApplicationContext());
     }
   }
 
   void resumePush(JSONArray data, CallbackContext callbackContext) {
     if (IS_JIGUANG_PUSH) {
       JPushUtil.resumePush(data, callbackContext);
+    }else{
+      NXTPushManager.resumePush(cordova.getActivity().getApplicationContext());
     }
   }
 
