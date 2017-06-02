@@ -130,9 +130,9 @@ public class NXTPushPlugin extends CordovaPlugin {
         JPushUtil.setAlias(data, callbackContext);
       } else {
 
-        if( data.getString(0) == ""){ // 与极光 api 耦合
+        if (data.getString(0) == "") { // 与极光 api 耦合
           NXTPushManager.unRegisterPush(cordova.getActivity().getApplicationContext());
-        }else{ // 注册华为与小米
+        } else { // 注册华为与小米
           NXTPushManager.setAlias(cordova.getActivity().getApplicationContext(), "USELESS", data.getString(0));
         }
       }
@@ -155,7 +155,7 @@ public class NXTPushPlugin extends CordovaPlugin {
   void stopPush(JSONArray data, CallbackContext callbackContext) {
     if (IS_JIGUANG_PUSH) {
       JPushUtil.stopPush(data, callbackContext);
-    }else{
+    } else {
       NXTPushManager.stopPush(cordova.getActivity().getApplicationContext());
     }
   }
@@ -163,7 +163,7 @@ public class NXTPushPlugin extends CordovaPlugin {
   void resumePush(JSONArray data, CallbackContext callbackContext) {
     if (IS_JIGUANG_PUSH) {
       JPushUtil.resumePush(data, callbackContext);
-    }else{
+    } else {
       NXTPushManager.resumePush(cordova.getActivity().getApplicationContext());
     }
   }

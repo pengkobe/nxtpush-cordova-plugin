@@ -56,7 +56,6 @@ public class GlobalReceiver extends NXTReceiver {
   }
 
 
-
   /**
    * 接收命令设置返回信息
    *

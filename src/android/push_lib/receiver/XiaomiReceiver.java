@@ -29,6 +29,7 @@ public class XiaomiReceiver extends PushMessageReceiver {
   public XiaomiReceiver() {
     super();
   }
+
   /**
    * 方法用来接收服务器向客户端发送的自定义动作通知消息，
    * 这个回调方法会在用户手动点击通知后触发
@@ -104,9 +105,10 @@ public class XiaomiReceiver extends PushMessageReceiver {
 
   /**
    * 接收到通知消息
+   *
    * @param context
    * @param miPushMessage
-     */
+   */
   @Override
   public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
     Log.i("小米onNotificationRt", miPushMessage.toString());

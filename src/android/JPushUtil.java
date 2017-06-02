@@ -28,7 +28,7 @@ import cn.jpush.android.data.JPushLocalNotification;
 
 import com.eegrid.phonegap.NXTPushPlugin;
 
-public class JPushUtil  {
+public class JPushUtil {
   private final static List<String> methodList =
     Arrays.asList(
       "addLocalNotification",
@@ -382,7 +382,7 @@ public class JPushUtil  {
   }
 
   /**
-   *   自定义通知行为，声音、震动、呼吸灯等。
+   * 自定义通知行为，声音、震动、呼吸灯等。
    */
   public static void setBasicPushNotificationBuilder(JSONArray data,
                                                      CallbackContext callbackContext) {

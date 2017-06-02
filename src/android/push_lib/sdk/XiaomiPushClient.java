@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.nxt.push.receiver.NXTReceiver;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -14,72 +15,77 @@ import com.xiaomi.mipush.sdk.MiPushClient;
  */
 public class XiaomiPushClient implements NXTPushClient {
 
-    // 清单文件中配置小米推送APPID的key
-    private static final String MI_PUSH_APPID = "MI_PUSH_APPID";
-    // 清单文件中配置小米推送APPKEY的key
-    private static final String MI_PUSH_APPKEY = "MI_PUSH_APPKEY";
+  // 清单文件中配置小米推送APPID的key
+  private static final String MI_PUSH_APPID = "MI_PUSH_APPID";
+  // 清单文件中配置小米推送APPKEY的key
+  private static final String MI_PUSH_APPKEY = "MI_PUSH_APPKEY";
 
-    @Override public void registerPush(Context ctx) {
-        try {
-            Log.i("小米RegisterPush", "========================");
-            ApplicationInfo applicationInfo = ctx.getPackageManager()
-                .getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
-            if(applicationInfo!=null && applicationInfo.metaData!=null) {
-                String appid = applicationInfo.metaData.getString(MI_PUSH_APPID);
-                String appkey = applicationInfo.metaData.getString(MI_PUSH_APPKEY);
-                if(!TextUtils.isEmpty(appid) && !TextUtils.isEmpty(appkey)) {
-                    // 以下仅用于测试
-                    MiPushClient.registerPush(ctx, "2882303761517580870", "5681758071870");
-                  Log.i("小米RegisterPush appid", appid);
-                  Log.i("小米RegisterPush appkey", appkey);
-                } else {
-                    Log.e(NXTReceiver.LOG_TAG, "APPID = "
-                        + appid
-                        + "   APPKEY = "
-                        + appkey
-                        + " please config appid and appkey!");
-                }
-            }
-        } catch (Exception e) {
-            Log.e(NXTReceiver.LOG_TAG, e.getMessage());
+  @Override
+  public void registerPush(Context ctx) {
+    try {
+      Log.i("小米RegisterPush", "========================");
+      ApplicationInfo applicationInfo = ctx.getPackageManager()
+        .getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
+      if (applicationInfo != null && applicationInfo.metaData != null) {
+        String appid = applicationInfo.metaData.getString(MI_PUSH_APPID);
+        String appkey = applicationInfo.metaData.getString(MI_PUSH_APPKEY);
+        if (!TextUtils.isEmpty(appid) && !TextUtils.isEmpty(appkey)) {
+          MiPushClient.registerPush(ctx, "2882303761517580870", "5681758071870");
+          Log.i("小米RegisterPush appid", appid);
+          Log.i("小米RegisterPush appkey", appkey);
+        } else {
+          Log.e(NXTReceiver.LOG_TAG, "APPID = "
+            + appid
+            + "   APPKEY = "
+            + appkey
+            + " please config appid and appkey!");
         }
+      }
+    } catch (Exception e) {
+      Log.e(NXTReceiver.LOG_TAG, e.getMessage());
     }
+  }
 
-    @Override public void unRegisterPush(Context context) {
-        MiPushClient.unregisterPush(context);
+  @Override
+  public void unRegisterPush(Context context) {
+    MiPushClient.unregisterPush(context);
 
-        SharedPreferences sharedPreference =
-                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = sharedPreference.edit();
-        edit.remove(NXTReceiver.SP_KEY_XIAOMI_TOKEN);
-        edit.commit();
+    SharedPreferences sharedPreference =
+      context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP, Context.MODE_PRIVATE);
+    SharedPreferences.Editor edit = sharedPreference.edit();
+    edit.remove(NXTReceiver.SP_KEY_XIAOMI_TOKEN);
+    edit.commit();
 
-    }
+  }
 
-    @Override
-    public void stopPush(Context ctx) {
-    }
+  @Override
+  public void stopPush(Context ctx) {
+  }
 
-    @Override
-    public void resumePush(Context ctx) {
-    }
+  @Override
+  public void resumePush(Context ctx) {
+  }
 
-    @Override public void setAlias(Context context, String deviceId, String alias) {
-        Log.i("小米alias", alias);
-        MiPushClient.setAlias(context, alias, null);
-    }
+  @Override
+  public void setAlias(Context context, String deviceId, String alias) {
+    Log.i("小米alias", alias);
+    MiPushClient.setAlias(context, alias, null);
+  }
 
-    @Override public void deleteAlias(Context context, String deviceId, String alias) {
-        MiPushClient.unsetAlias(context, alias, null);
-    }
+  @Override
+  public void deleteAlias(Context context, String deviceId, String alias) {
+    MiPushClient.unsetAlias(context, alias, null);
+  }
 
-    @Override public String getToken(Context context) {
-        SharedPreferences sharedPreference =
-                context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP,Context.MODE_PRIVATE);
-        return sharedPreference.getString(NXTReceiver.SP_KEY_XIAOMI_TOKEN, null);
-    }
+  @Override
+  public String getToken(Context context) {
+    SharedPreferences sharedPreference =
+      context.getSharedPreferences(NXTReceiver.JINGOAL_PUSH_SP, Context.MODE_PRIVATE);
+    return sharedPreference.getString(NXTReceiver.SP_KEY_XIAOMI_TOKEN, null);
+  }
 
-    @Override public int getClientType() {
-        return NXTReceiver.PushClientType.XIAO_MI;
-    }
+  @Override
+  public int getClientType() {
+    return NXTReceiver.PushClientType.XIAO_MI;
+  }
 }

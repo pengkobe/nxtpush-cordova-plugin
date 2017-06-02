@@ -80,16 +80,16 @@ public abstract class NXTReceiver extends BroadcastReceiver {
         onReceivePassThroughMessage(context, intent.getStringExtra(MSG_CONTENT));
       }
     } else if (MessageType.COMMAND.equals(intent.getStringExtra(MESSAGE_TYPE))) {
-      if(intent.getIntExtra(PUS_CLIENT_TYPE, -1) == PushClientType.HUA_WEI){
+      if (intent.getIntExtra(PUS_CLIENT_TYPE, -1) == PushClientType.HUA_WEI) {
         // 华为本地注册生产token
         onHuaWeiRigisterResult(context, intent.getStringExtra(MSG_CONTENT),
           intent.getBooleanExtra(COMMAND_RESULT, false));
 
-      }else{
+      } else {
         onCommandResult(context, intent.getStringExtra(COMMAND_TYPE),
           intent.getBooleanExtra(COMMAND_RESULT, false));
       }
-    }else  if(NXTReceiver.MessageType.OPENNOTIFICATION.equals(intent.getStringExtra(MESSAGE_TYPE))){
+    } else if (NXTReceiver.MessageType.OPENNOTIFICATION.equals(intent.getStringExtra(MESSAGE_TYPE))) {
       onNotificationMessageClicked(context, intent.getStringExtra(MSG_CONTENT));
     }
   }
@@ -119,7 +119,7 @@ public abstract class NXTReceiver extends BroadcastReceiver {
   /**
    * 返回华为 TOKEN
    *
-   * @param token 华为服务端返回的token
+   * @param token   华为服务端返回的token
    * @param success 执行命令的结果，true or false
    **/
   public abstract void onHuaWeiRigisterResult(Context context, String token, boolean success);
