@@ -108,7 +108,7 @@ public class NXTPushPlugin extends CordovaPlugin {
   }
 
   void init(JSONArray data, CallbackContext callbackContext) {
-    if (RomTypeUtil.isEMUI() || RomTypeUtil.isMIUI()) {
+    if (RomTypeUtil.isEMUI()) {//  || RomTypeUtil.isMIUI()
       // 注册华为
       NXTPushManager.init(cordova.getActivity().getApplicationContext());
     } else {
