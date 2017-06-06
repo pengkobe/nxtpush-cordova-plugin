@@ -10,7 +10,9 @@
     <keywords>NXTPush,push</keywords>
     <license>MIT License</license>
 
-    <!--<preference name="JIPUSH_APPKEY" />-->
+    <preference name="JIPUSH_APPKEY" />
+    <preference name="MI_PUSH_APPID" />
+    <preference name="MI_PUSH_APPKEY" />
 
     <engines>
         <engine name="cordova" version=">=3.0" />
@@ -55,7 +57,7 @@
         <framework src="libresolv.tbd" weak="true" />
 
         <config-file target="*JPushConfig.plist" parent="Appkey">
-            <string>f5e2b59c15255310ed1e9e97</string>
+            <string>$JIPUSH_APPKEY</string>
         </config-file>
     </platform>
 
@@ -211,8 +213,8 @@
                 </intent-filter>
             </receiver>
             <!-- 是否需要加上\\0，待纠结 -->
-            <meta-data android:name="MI_PUSH_APPID" android:value="2882303761517580870" />
-            <meta-data android:name="MI_PUSH_APPKEY" android:value="5681758071870" />    
+            <meta-data android:name="MI_PUSH_APPID" android:value="$MI_PUSH_APPID" />
+            <meta-data android:name="MI_PUSH_APPKEY" android:value="$MI_PUSH_APPKEY" />    
             <!-- 小米推送SDK配置结束 -->
 
             <!-- 极光推送开始 -->
@@ -314,7 +316,7 @@
 
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
-            <meta-data android:name="JPUSH_APPKEY" android:value="f5e2b59c15255310ed1e9e97" />
+            <meta-data android:name="JPUSH_APPKEY" android:value="$JIPUSH_APPKEY" />
             <!-- 极光配置结束 -->
 
             <!-- 指定全局接收器 -->
