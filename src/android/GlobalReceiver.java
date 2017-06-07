@@ -19,12 +19,12 @@ public class GlobalReceiver extends NXTReceiver {
   @Override
   public void onReceivePassThroughMessage(Context context, String message) {
     Log.i("holo_push", "========================");
-    Log.i("holo_push", "透传消息:  " + message);
+    Log.i("holo_push", "透传消息/通知消息:  " + message);
     // 套用极光接口发送至 UI
-    String format = "window.plugins.NXTPlugin.receiveMessageInAndroidCallback(%s);";
+    String format = "window.plugins.NXTPlugin.receiveNotificationInAndroidCallback(%s);";
     try {
       JSONObject data = new JSONObject();
-      data.put("message", message);
+      data.put("extras", message);
       final String js = String.format(format, data.toString());
       NXTPushPlugin.runJSOnUiThread(js);
     } catch (JSONException e) {

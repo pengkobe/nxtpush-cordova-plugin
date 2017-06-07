@@ -238,17 +238,43 @@ NXTPlugin.prototype.receiveMessageInAndroidCallback = function (data) {
   cordova.fireDocumentEvent('jpush.receiveMessage', this.receiveMessage)
 }
 
+// NXTPlugin.prototype.openNotificationInAndroidCallback = function (data) {
+//   data = JSON.stringify(data)
+//   console.log('NXTPlugin:openNotificationInAndroidCallback: ' + data)
+//   this.openNotification = JSON.parse(data)
+//   cordova.fireDocumentEvent('jpush.openNotification', this.openNotification)
+// }
+
+
 NXTPlugin.prototype.openNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
   console.log('NXTPlugin:openNotificationInAndroidCallback: ' + data)
-  this.openNotification = JSON.parse(data)
+  this.openNotification = JSON.parse(data);
+  // 处理华为消息
+  if(Object.prototype.toString.call(this.openNotification.extras) == "[object String]"){
+        var extra = JSON.parse(this.openNotification.extras);
+        this.openNotification.extras =  extra[0];
+  }
   cordova.fireDocumentEvent('jpush.openNotification', this.openNotification)
 }
+
+
+// NXTPlugin.prototype.receiveNotificationInAndroidCallback = function (data) {
+//   data = JSON.stringify(data)
+//   console.log('NXTPlugin:receiveNotificationInAndroidCallback: ' + data)
+//   this.receiveNotification = JSON.parse(data)
+//   cordova.fireDocumentEvent('jpush.receiveNotification', this.receiveNotification)
+// }
 
 NXTPlugin.prototype.receiveNotificationInAndroidCallback = function (data) {
   data = JSON.stringify(data)
   console.log('NXTPlugin:receiveNotificationInAndroidCallback: ' + data)
-  this.receiveNotification = JSON.parse(data)
+  this.receiveNotification = JSON.parse(data);
+  // 处理华为消息
+  if(Object.prototype.toString.call(this.receiveNotification.extras) == "[object String]"){
+        var extra = JSON.parse(this.receiveNotification.extras);
+        this.receiveNotification.extras =  extra[0];
+  }
   cordova.fireDocumentEvent('jpush.receiveNotification', this.receiveNotification)
 }
 

@@ -1,9 +1,9 @@
 {
-    "name": "NXTPush-cordova-plugin",
+    "name": "nxtpush-cordova-plugin",
     "version": "0.0.1",
     "description": "HUAWEI PUSH & XIAOMI PUSH & JPUSH for cordova plugin",
     "cordova": {
-        "id": "NXTPush-cordova-plugin",
+        "id": "nxtpush-cordova-plugin",
         "platforms": [
             "ios",
             "android"
@@ -14,9 +14,8 @@
         "url": "git+https://github.com/pengkobe/NXT-Cordova-PushPlugin.git"
     },
     "keywords": [
-        "NXTPush",
+        "nxtpush",
         "push",
-        "Push",
         "ecosystem:cordova",
         "cordova-ios",
         "cordova-android"
