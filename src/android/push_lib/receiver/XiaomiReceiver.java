@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-// import com.xxx.xxxx.R;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -49,6 +48,9 @@ public class XiaomiReceiver extends PushMessageReceiver {
    */
   @Override
   public void onCommandResult(Context context, MiPushCommandMessage message) {
+
+    int mipush_set_alias_fail = context.getResources().getIdentifier("mipush_set_alias_fail", "string", context.getPackageName());
+    int mipush_unset_alias_fail = context.getResources().getIdentifier("mipush_unset_alias_fail", "string", context.getPackageName());
     Log.v(LOG_TAG, "onCommandResult is called. " + message.toString());
     String command = message.getCommand();
     List<String> arguments = message.getCommandArguments();
@@ -79,7 +81,7 @@ public class XiaomiReceiver extends PushMessageReceiver {
       if (message.getResultCode() == ErrorCode.SUCCESS) {
         intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
       } else {
-        log = context.getString("Set alias fail for %1$s.", message.getReason());
+        log = context.getString(mipush_set_alias_fail, message.getReason());
         intent.putExtra(NXTReceiver.COMMAND_RESULT, false);
         Log.e(LOG_TAG, log);
       }
@@ -89,13 +91,14 @@ public class XiaomiReceiver extends PushMessageReceiver {
       if (message.getResultCode() == ErrorCode.SUCCESS) {
         intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
       } else {
-        log = context.getString("Unset alias fail for %1$s.", message.getReason());
+        log = context.getString(mipush_unset_alias_fail, message.getReason());
         intent.putExtra(NXTReceiver.COMMAND_RESULT, false);
         Log.e(LOG_TAG, log);
       }
       context.sendBroadcast(intent);
     }
   }
+
 
   @Override
   public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
