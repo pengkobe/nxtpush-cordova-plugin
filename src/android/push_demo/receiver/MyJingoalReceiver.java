@@ -1,10 +1,10 @@
-package com.jingoal.pushdemo.receiver;
+package com.nxt.pushdemo.receiver;
 
 import android.content.Context;
 import android.util.Log;
-import com.jingoal.push.receiver.JingoalReceiver;
-import com.jingoal.push.sdk.JingoalPushManager;
-import com.jingoal.pushdemo.MainActivity;
+import com.nxt.push.receiver.JingoalReceiver;
+import com.nxt.push.sdk.JingoalPushManager;
+import com.nxt.pushdemo.MainActivity;
 
 public class MyJingoalReceiver extends JingoalReceiver {
 

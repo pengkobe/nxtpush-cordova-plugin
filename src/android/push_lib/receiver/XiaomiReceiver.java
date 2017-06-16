@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.ionicframework.mode356491.R;
+// import com.xxx.xxxx.R;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -79,7 +79,7 @@ public class XiaomiReceiver extends PushMessageReceiver {
       if (message.getResultCode() == ErrorCode.SUCCESS) {
         intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
       } else {
-        log = context.getString(R.string.mipush_set_alias_fail, message.getReason());
+        log = context.getString("Set alias fail for %1$s.", message.getReason());
         intent.putExtra(NXTReceiver.COMMAND_RESULT, false);
         Log.e(LOG_TAG, log);
       }
@@ -89,7 +89,7 @@ public class XiaomiReceiver extends PushMessageReceiver {
       if (message.getResultCode() == ErrorCode.SUCCESS) {
         intent.putExtra(NXTReceiver.COMMAND_RESULT, true);
       } else {
-        log = context.getString(R.string.mipush_unset_alias_fail, message.getReason());
+        log = context.getString("Unset alias fail for %1$s.", message.getReason());
         intent.putExtra(NXTReceiver.COMMAND_RESULT, false);
         Log.e(LOG_TAG, log);
       }
@@ -131,7 +131,7 @@ public class XiaomiReceiver extends PushMessageReceiver {
 
   @Override
   public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
-    Log.i("小米assThroughMessage", miPushMessage.toString());
+    Log.i("小米PassThroughMessage", miPushMessage.toString());
     Intent intent = new Intent(JINGOAL_PUSH_ACTION);
     intent.putExtra(PUS_CLIENT_TYPE, NXTReceiver.PushClientType.XIAO_MI);
     intent.putExtra(MSG_CONTENT, miPushMessage.getTitle());

@@ -1,11 +1,11 @@
-package com.jingoal.pushdemo;
+package com.nxt.pushdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import com.jingoal.push.receiver.JingoalReceiver;
-import com.jingoal.push.sdk.JingoalPushManager;
+import com.nxt.push.receiver.JingoalReceiver;
+import com.nxt.push.sdk.JingoalPushManager;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 

@@ -8,7 +8,7 @@ import com.nxt.push.util.RomTypeUtil;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 /**
- * Jingoal Push SDK 初始化类,会根据手机类型选择初始化不同厂商的Push SDK
+ * NXT Push SDK 初始化类,会根据手机类型选择初始化不同厂商的Push SDK
  */
 public class NXTPushManager {
 
