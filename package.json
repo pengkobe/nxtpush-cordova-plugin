@@ -1,6 +1,6 @@
 {
     "name": "nxtpush-cordova-plugin",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "HUAWEI PUSH & XIAOMI PUSH & JPUSH for cordova plugin",
     "cordova": {
         "id": "nxtpush-cordova-plugin",

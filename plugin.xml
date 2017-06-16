@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="nxtpush-cordova-plugin"
-  version="0.2.0">
+  version="0.3.0">
 
     <name>NXTPush</name>
     <description>NXTPush for cordova plugin</description>
@@ -76,12 +76,6 @@
             <uses-permission android:name="android.permission.WAKE_LOCK"/>
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
             <!-- 华为推送 必需的权限 结束 -->
-            <!-- 个推SDK权限配置开始 -->
-            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-            <!-- iBeancon功能与个推3.0电子围栏功能所需要的权限为非必需的可选择权限，可以选择性配置，以便使用个推3.0电子围栏功能 -->
-            <uses-permission android:name="android.permission.BLUETOOTH"/>
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
             <!-- 浮动通知权限 -->
             <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>

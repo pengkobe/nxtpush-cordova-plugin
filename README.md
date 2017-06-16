@@ -14,9 +14,9 @@ cordova plugin add Your_Plugin_Path --nofetch --variable JIPUSH_APPKEY=YOUR_JIPU
 ```
 
 ## 关于example
-例子基于 ionic，当然你也可以不基于 ionic，参考极光官方例子即可。
-使用 ```ionic start myApp tabs```安装ionic 初始模板，
-将 example 里的代码替换至 www/ 下的代码即可。
+例子基于 ionic ，当然你也可以不基于 ionic ，参考极光官方例子即可。
+可以使用 ```ionic start myApp tabs```安装 ionic 初始模板，
+ 将 www/ 下的代码替换为 example/ 里的代码即可。
 
 ## License
 MIT
