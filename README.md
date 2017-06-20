@@ -13,8 +13,11 @@
 
 #### 安装命令
 ```bash
+# 本地安装
 cordova plugin add Your_Plugin_Path --nofetch --variable JIPUSH_APPKEY=YOUR_JIPUSH_APPKEY --variable MI_PUSH_APPID=YOUR_MI_PUSH_APPID --variable MI_PUSH_APPKEY=
 =YOUR_MI_PUSH_APPKEY
+# NPM 安装
+cordova plugin add nxtpush-cordova-plugin --variable JIPUSH_APPKEY=YOUR_JIPUSH_APPKEY --variable MI_PUSH_APPID=YOUR_MI_PUSH_APPID --variable MI_PUSH_APPKEY=YOUR_MI_PUSH_APPKEY
 ```
 
 
