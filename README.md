@@ -1,8 +1,14 @@
 # nxtpush-cordova-plugin
 
-![](https://img.shields.io/badge/npm-1.0.4-519dd9.svg)
-![](https://img.shields.io/npm/dm/localeval.svg)[![Dependency Status](https://david-dm.org/pengkobe/nxtpush-cordova-plugin.svg)](https://david-dm.org/pengkobe/nxtpush-cordova-plugin)
-![](https://img.shields.io/github/license/mashape/apistatus.svg)
+
+![](http://npm.packagequality.com/shield/nxtpush-cordova-plugin.svg)
+[![Dependency Status](https://david-dm.org/pengkobe/nxtpush-cordova-plugin.svg)](https://david-dm.org/pengkobe/nxtpush-cordova-plugin)
+![](https://img.shields.io/github/stars/pengkobe/nxtpush-cordova-plugin.svg)
+![](https://img.shields.io/github/forks/pengkobe/nxtpush-cordova-plugin.svg)
+![](https://img.shields.io/github/issues/pengkobe/nxtpush-cordova-plugin.svg)
+![](https://img.shields.io/github/Downloads/pengkobe/nxtpush-cordova-plugin.svg)
+![](https://img.shields.io/github/license/pengkobe/nxtpush-cordova-plugin.svg)
+
 
 > 集成极光推送、华为推送、小米推送的 Cordova 插件。
 
